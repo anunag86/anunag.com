@@ -489,7 +489,7 @@
 
             .frame-nav {
                 top: var(--frame-padding);
-                left: max(1.75rem, calc((100vw - var(--page-max)) / 2 - 7rem));
+                left: max(2.5rem, calc((100vw - var(--page-max)) / 2 - 6rem));
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
@@ -769,24 +769,35 @@
             compactHeaderTop: 18,
             compactNavTop: 0,
             heroEnd: 1,
-            navRevealPoint: 1
+            navRevealPoint: 1,
+            sectionStarts: {}
         };
 
         function measureLayout() {
             const isDesktop = desktopMedia.matches;
             const headerHeight = header.getBoundingClientRect().height;
             const navHeight = frameNav.getBoundingClientRect().height;
-            const compactHeaderTop = isDesktop ? 40 : 24;
-            const compactGap = isDesktop ? 18 : 10;
+            const compactHeaderTop = isDesktop ? 40 : 30;
+            const compactGap = isDesktop ? 18 : 4;
             const compactNavTop = isDesktop ? 16 : compactHeaderTop + headerHeight + compactGap;
-            const introTop = introPane.offsetTop;
+            const sectionStarts = {};
+            let runningTop = 0;
+
+            sections.forEach((section) => {
+                sectionStarts[section.id] = runningTop;
+                const styles = window.getComputedStyle(section);
+                runningTop += section.offsetHeight + parseFloat(styles.marginBottom || "0");
+            });
+
+            const introTop = sectionStarts[introPane.id] ?? 0;
             const heroEnd = Math.max(120, introTop - (compactNavTop + navHeight + 32));
-            const navRevealPoint = isDesktop ? 0 : Math.max(72, heroEnd - (navHeight + 24));
+            const navRevealPoint = isDesktop ? 0 : Math.max(96, heroEnd - 18);
 
             layoutState.compactHeaderTop = compactHeaderTop;
             layoutState.compactNavTop = compactNavTop;
             layoutState.heroEnd = heroEnd;
             layoutState.navRevealPoint = navRevealPoint;
+            layoutState.sectionStarts = sectionStarts;
 
             frameNav.style.top = isDesktop ? "" : `${compactNavTop}px`;
         }
@@ -839,9 +850,8 @@
         navItems.forEach((item) => {
             item.addEventListener("click", () => {
                 const targetId = item.getAttribute("data-target");
-                const targetEl = document.getElementById(targetId);
-                if (targetEl) {
-                    const targetTop = targetEl.offsetTop;
+                const targetTop = layoutState.sectionStarts[targetId];
+                if (typeof targetTop === "number") {
                     window.scrollTo({ top: targetTop, behavior: "smooth" });
                 }
             });
