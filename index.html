@@ -98,14 +98,14 @@
 
         .frame-nav {
             position: fixed;
-            top: 1rem;
+            top: 6.6rem;
             left: 50%;
             z-index: 104;
-            width: min(92vw, 26rem);
+            width: min(90vw, 24rem);
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.55rem;
-            padding: 0.85rem;
+            gap: 0.45rem;
+            padding: 0.7rem;
             border: 1px solid rgba(0, 0, 0, 0.06);
             border-radius: 1.1rem;
             background: rgba(250, 249, 246, 0.82);
@@ -121,14 +121,14 @@
             cursor: pointer;
             color: var(--text-muted);
             min-width: 0;
-            padding: 0.48rem 0.65rem;
+            padding: 0.42rem 0.5rem;
             border-radius: 999px;
             background-color: transparent;
             border: 1px solid rgba(0, 0, 0, 0.08);
             font-family: var(--font-sans);
-            font-size: 0.64rem;
+            font-size: 0.58rem;
             font-weight: 600;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             text-align: center;
             transition: all 0.3s ease;
@@ -444,8 +444,14 @@
             }
 
             .frame-nav {
+                top: 7.2rem;
                 width: min(84vw, 34rem);
                 grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .nav-item {
+                padding: 0.46rem 0.7rem;
+                font-size: 0.62rem;
             }
 
             .hero-shell {
@@ -483,7 +489,7 @@
 
             .frame-nav {
                 top: var(--frame-padding);
-                left: var(--frame-padding);
+                left: calc(var(--frame-padding) + 0.5rem);
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
@@ -501,7 +507,9 @@
             }
 
             .nav-item {
+                padding: 0.45rem 0.85rem;
                 font-size: 0.65rem;
+                letter-spacing: 0.14em;
             }
 
             .frame-quick-links {
@@ -753,6 +761,7 @@
         const body = document.body;
         const sections = Array.from(document.querySelectorAll("section"));
         const navItems = Array.from(document.querySelectorAll(".nav-item"));
+        const darkPane = document.getElementById("pane-06");
         const desktopMedia = window.matchMedia("(min-width: 1024px)");
 
         function syncNav(activeId) {
@@ -777,7 +786,9 @@
                 }
             });
 
-            body.classList.toggle("on-dark-pane", activeId === "pane-06");
+            const darkRect = darkPane.getBoundingClientRect();
+            const darkThreshold = desktopMedia.matches ? 0.22 : 0.14;
+            body.classList.toggle("on-dark-pane", darkRect.top <= window.innerHeight * darkThreshold);
             syncNav(activeId);
 
             const isDesktop = desktopMedia.matches;
@@ -786,14 +797,14 @@
             prog = Math.max(0, Math.min(1, prog));
 
             const startTop = window.innerHeight * (isDesktop ? 0.5 : 0.38);
-            const endTop = isDesktop ? 40 : 94;
+            const endTop = isDesktop ? 40 : 18;
             const currentTop = startTop - ((startTop - endTop) * prog);
             const currentScale = 1 - ((isDesktop ? 0.65 : 0.56) * prog);
 
             header.style.top = `${currentTop}px`;
             header.style.left = "50%";
             header.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
-            body.classList.toggle("nav-revealed", prog > (isDesktop ? 0.05 : 0.22));
+            body.classList.toggle("nav-revealed", prog > (isDesktop ? 0.05 : 0.26));
 
             if (tagline) {
                 tagline.style.opacity = String(Math.max(0, 1 - (prog * (isDesktop ? 2 : 1.7))));
@@ -805,7 +816,8 @@
                 const targetId = item.getAttribute("data-target");
                 const targetEl = document.getElementById(targetId);
                 if (targetEl) {
-                    targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+                    const targetTop = targetEl.offsetTop;
+                    window.scrollTo({ top: targetTop, behavior: "smooth" });
                 }
             });
         });
