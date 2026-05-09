@@ -320,6 +320,34 @@
             gap: clamp(1rem, 3vw, 1.5rem);
         }
 
+        @media (max-width: 767px) {
+            #pane-01 {
+                position: relative;
+                min-height: auto;
+                align-items: flex-start;
+                padding-top: 5rem;
+                padding-bottom: 6rem;
+                margin-bottom: 8svh;
+            }
+
+            #pane-01 .content {
+                max-width: 32rem;
+            }
+
+            #pane-01 .split-grid {
+                gap: 1.25rem;
+                align-items: start;
+            }
+
+            #pane-01 .product-visual img {
+                max-height: 44svh;
+            }
+
+            #pane-01 .text-block {
+                max-width: none;
+            }
+        }
+
         #pane-02 .product-visual img {
             max-width: min(18rem, 100%);
         }
