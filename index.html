@@ -3,197 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Anunag Jayanti</title>
-    
-    <!-- Updated to accurately target the provided favicon.jpg -->
+    <meta name="description" content="Anunag Jayanti builds thoughtful products, intelligent systems, and quiet tools for a noisy world.">
     <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Montserrat:wght@900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --font-main: 'Playfair Display', Georgia, 'Times New Roman', serif;
-            --font-sans: 'Inter', -apple-system, sans-serif;
-            --font-deadscroll: 'Montserrat', sans-serif; 
-            
-            --bg-bone: #FAF9F6;   
-            --bg-intro: #F4F1EA;  
-            --bg-library: #F2F0EA; 
-            --bg-archive: #EAE7E0; 
-            --bg-connect: #121212; 
-            
-            --text-dark: #1A1A1A;
+            --font-main: "Playfair Display", Georgia, "Times New Roman", serif;
+            --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-deadscroll: "Montserrat", sans-serif;
+
+            --bg-bone: #faf9f6;
+            --bg-intro: #f4f1ea;
+            --bg-library: #f2f0ea;
+            --bg-archive: #eae7e0;
+            --bg-connect: #121212;
+
+            --text-dark: #1a1a1a;
             --text-muted: #666666;
-            --text-light: #FAF9F6;
-            
-            --color-pill: #2D4A22; 
-            --frame-padding: 2.5rem;
+            --text-light: #faf9f6;
+            --color-pill: #2d4a22;
+
+            --page-max: 1180px;
+            --frame-padding: clamp(1rem, 2vw, 2.5rem);
+            --section-pad-block: clamp(4rem, 7vw, 7rem);
+            --section-pad-inline: clamp(1.25rem, 4vw, 4rem);
+            --content-gap: clamp(1.75rem, 4vw, 5rem);
+            --border-soft: 1px solid rgba(0, 0, 0, 0.08);
+            --shadow-soft: 0 -10px 30px rgba(0, 0, 0, 0.02);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: var(--font-main);
             color: var(--text-dark);
             background-color: var(--bg-bone);
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow-x: clip;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
         }
 
         a {
             color: inherit;
             text-decoration: none;
-            transition: color 0.2s ease, border-color 0.2s ease;
+            transition: color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
         }
 
-        /* --- The Scroll-Linked Shrinking Header --- */
+        main {
+            position: relative;
+        }
+
         .persistent-header {
-            position: fixed;
-            top: 50vh; 
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            font-size: clamp(3.3rem, 6.6vw, 5.5rem);
+            position: relative;
             z-index: 105;
-            white-space: nowrap;
-            letter-spacing: -0.02em;
+            padding: 1rem var(--section-pad-inline) 0.35rem;
+            font-size: clamp(2.2rem, 8vw, 4.4rem);
+            line-height: 0.95;
+            letter-spacing: -0.03em;
             color: var(--text-dark);
-            transition: color 0.4s ease; 
-            transform-origin: center center;
+            transition: color 0.4s ease;
         }
 
-        .hero-subtitle-container {
-            position: absolute;
-            top: 65vh; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
+        .persistent-header span {
+            display: inline-block;
+            max-width: min(12ch, 100%);
+            white-space: normal;
         }
 
-        .hero-subtitle {
-            text-align: center;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            font-family: var(--font-sans);
+        body.on-dark-pane .persistent-header {
+            color: var(--text-light);
         }
 
-        body.on-dark-pane .persistent-header { color: var(--text-light); }
-
-        /* --- The Persistent Frame --- */
         .frame-nav {
-            position: fixed;
-            top: var(--frame-padding);
-            left: var(--frame-padding);
-            z-index: 100;
-            font-size: 0.65rem; 
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
+            position: sticky;
+            top: 0;
+            z-index: 104;
             display: flex;
-            flex-direction: column;
             gap: 0.6rem;
-            align-items: flex-start;
-            font-family: var(--font-sans);
-            font-weight: 600;
+            padding: 0.25rem var(--section-pad-inline) 0.9rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            background: linear-gradient(to bottom, rgba(250, 249, 246, 0.96), rgba(250, 249, 246, 0.82));
+            backdrop-filter: blur(10px);
+        }
+
+        .frame-nav::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-item {
+            flex: 0 0 auto;
             cursor: pointer;
             color: var(--text-muted);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
+            padding: 0.45rem 0.85rem;
+            border-radius: 999px;
             background-color: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
             transition: all 0.3s ease;
         }
 
         .nav-item.active {
             color: var(--text-light);
             background-color: var(--color-pill);
+            border-color: var(--color-pill);
+        }
+
+        body.on-dark-pane .frame-nav {
+            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.94), rgba(18, 18, 18, 0.75));
+        }
+
+        body.on-dark-pane .nav-item {
+            color: rgba(255, 255, 255, 0.62);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        body.on-dark-pane .nav-item.active {
+            color: var(--text-light);
+            background-color: var(--color-pill);
+            border-color: var(--color-pill);
         }
 
         .frame-quick-links {
-            position: fixed;
-            bottom: var(--frame-padding);
-            right: var(--frame-padding);
-            z-index: 100;
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end; 
-            gap: 0.8rem;
-            font-family: var(--font-sans);
-            font-weight: 600;
+            display: none;
         }
-
-        .frame-quick-links a { color: var(--text-muted); opacity: 0.6; }
-        .frame-quick-links a:hover { opacity: 1; color: var(--text-dark); }
-
-        body.on-dark-pane .nav-item { color: rgba(255,255,255,0.4); }
-        body.on-dark-pane .nav-item.active { color: var(--text-light); background-color: var(--color-pill); }
-        body.on-dark-pane .frame-quick-links a { color: rgba(255,255,255,0.4); }
-        body.on-dark-pane .frame-quick-links a:hover { color: var(--text-light); }
-
-        /* --- The Native Scrolling Engine --- */
-        main { position: relative; }
 
         section {
-            position: sticky;
-            top: 0;
-            height: 100vh;
+            position: relative;
             width: 100%;
-            display: flex;
-            align-items: center; 
-            padding: 0 calc(var(--frame-padding) * 2);
-            margin-bottom: 25vh; 
-            border-top: 1px solid rgba(0,0,0,0.06); 
-            overflow: hidden;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.02);
+            min-height: auto;
+            padding: var(--section-pad-block) var(--section-pad-inline);
+            border-top: var(--border-soft);
+            overflow: clip;
+            box-shadow: var(--shadow-soft);
         }
 
-        .content { max-width: 1100px; margin: 0 auto; width: 100%; }
+        .content {
+            width: 100%;
+            max-width: var(--page-max);
+            margin: 0 auto;
+        }
 
-        #pane-00 { background-color: var(--bg-bone); border-top: none; z-index: 1; }
-        #pane-01 { background-color: var(--bg-intro); z-index: 2; }
-        #pane-02 { background-color: var(--bg-bone); z-index: 3; }
-        #pane-03 { 
-            background-color: var(--bg-bone); 
-            z-index: 4; 
-            border-top: none; 
-            box-shadow: none; 
-            align-items: flex-start; 
-        } 
-        
-        #pane-04 { background-color: var(--bg-library); z-index: 5; }
-        #pane-05 { background-color: var(--bg-archive); z-index: 6; }
-        #pane-06 { 
-            background-color: var(--bg-connect); 
-            z-index: 7; 
-            color: var(--text-light); 
-            border-top-color: rgba(255,255,255,0.1);
-            margin-bottom: 0; 
+        #pane-00 {
+            display: flex;
+            align-items: flex-end;
+            min-height: 58svh;
+            background-color: var(--bg-bone);
+            border-top: 0;
+            box-shadow: none;
+            padding-top: 1rem;
+        }
+
+        #pane-01 { background-color: var(--bg-intro); }
+        #pane-02 { background-color: var(--bg-bone); }
+        #pane-03 {
+            background-color: var(--bg-bone);
+            border-top: 0;
+            box-shadow: none;
+        }
+        #pane-04 { background-color: var(--bg-library); }
+        #pane-05 { background-color: var(--bg-archive); }
+        #pane-06 {
+            background-color: var(--bg-connect);
+            color: var(--text-light);
+            border-top-color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 0;
+        }
+
+        .hero-shell {
+            width: 100%;
+            max-width: var(--page-max);
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+            align-items: end;
+        }
+
+        .hero-subtitle-container {
+            max-width: 24rem;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
         }
 
         .scroll-indicator {
-            position: absolute;
-            bottom: var(--frame-padding);
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.6rem;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.65rem;
+            font-family: var(--font-sans);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
             color: var(--color-pill);
             opacity: 0.8;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-sans);
-            font-weight: 600;
         }
 
         .scroll-line {
-            width: 1px; height: 40px; background-color: var(--color-pill);
+            width: 1px;
+            height: 40px;
+            background-color: var(--color-pill);
             animation: scrollPulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -204,166 +240,396 @@
             100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
         }
 
-        /* --- Grid Layouts --- */
         .split-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 5rem;
+            grid-template-columns: minmax(0, 1fr);
+            gap: var(--content-gap);
             align-items: center;
         }
 
-        .text-block { align-self: center; }
+        .text-block {
+            max-width: 40rem;
+        }
 
         .product-visual {
             width: 100%;
-            background-color: rgba(0,0,0,0.02); 
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: rgba(0, 0, 0, 0.02);
+            border-radius: 1.5rem;
+            padding: clamp(1rem, 4vw, 2.5rem);
         }
-        
+
         .product-visual img {
             width: 100%;
             height: auto;
             object-fit: contain;
             opacity: 0.95;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08)); 
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
         }
 
-        /* ------------------------------------------- */
-        /* SPECIFIC PANE SIZING & FIXES                */
-        /* ------------------------------------------- */
-        
         #pane-01 .product-visual {
-            background-color: transparent; 
+            background-color: transparent;
+            padding: 0;
         }
-        
+
         #pane-01 .product-visual img {
-            max-width: 90%; 
-            max-height: 65vh; 
-            margin-top: 5rem; 
-            object-fit: contain; 
-            mix-blend-mode: multiply; 
-            filter: grayscale(100%) contrast(110%); 
+            max-width: min(28rem, 100%);
+            margin-inline: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            filter: grayscale(100%) contrast(110%);
         }
 
-        /* UpLevel */
-        #pane-02 .product-visual { height: 75vh; }
-        #pane-02 .product-visual img { max-width: 350px; }
+        #pane-02 .product-visual img {
+            max-width: min(18rem, 100%);
+        }
 
-        /* DeadScroll */
-        #pane-03 .split-grid { height: 100vh; }
-        #pane-03 .product-visual { height: 87.5vh; align-self: flex-start; }
-        #pane-03 .product-visual img { max-width: 200px; max-height: 45vh; }
-        #pane-03 .text-block { align-self: center; transform: translateY(-12.5vh); }
+        #pane-03 .product-visual img {
+            max-width: min(11rem, 100%);
+        }
 
-        /* --- Typography Elements --- */
-        h2 { font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 1.5rem; }
-        
+        h2 {
+            margin-bottom: 1.25rem;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 400;
+            line-height: 1.08;
+        }
+
         h2.brand-deadscroll {
             font-family: var(--font-deadscroll);
-            font-weight: 900; 
-            color: #0D0D0D; 
+            font-weight: 900;
+            color: #0d0d0d;
             letter-spacing: 0.04em;
             text-transform: uppercase;
+            word-break: break-word;
         }
 
-        p { font-size: clamp(1.1rem, 1.5vw, 1.25rem); margin-bottom: 1.5rem; opacity: 0.85; }
+        p {
+            margin-bottom: 1.25rem;
+            font-size: clamp(1rem, 2.7vw, 1.2rem);
+            opacity: 0.88;
+        }
 
         .section-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 2rem;
-            opacity: 0.5;
+            margin-bottom: 1.5rem;
             font-family: var(--font-sans);
+            font-size: 0.68rem;
             font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.56;
         }
 
-        .item-list { list-style: none; }
-        .item-list li { margin-bottom: 2.5rem; }
-        .item-title { font-size: 1.6rem; display: inline-block; margin-bottom: 0.5rem; font-style: italic; border-bottom: 1px solid rgba(0,0,0,0.2); }
-        .item-title:hover { border-color: var(--text-dark); }
-        .item-desc { font-size: 1.05rem; opacity: 0.8; max-width: 80%; line-height: 1.7; }
+        .inline-link {
+            display: inline-block;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            padding-bottom: 0.1rem;
+        }
 
-        /* ------------------------------------------- */
-        /* PANE 06: CONNECT FOOTER (CONTACT AVATAR)    */
-        /* ------------------------------------------- */
-        
+        .inline-link:hover {
+            border-color: var(--text-dark);
+        }
+
+        .item-list {
+            list-style: none;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .item-title {
+            display: inline-block;
+            margin-bottom: 0.55rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            font-size: clamp(1.25rem, 4vw, 1.6rem);
+            font-style: italic;
+            line-height: 1.25;
+        }
+
+        .item-title:hover {
+            border-color: var(--text-dark);
+        }
+
+        .item-desc {
+            max-width: 40rem;
+            font-size: 1rem;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
         .contact-stack {
+            max-width: 52rem;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            max-width: 800px;
         }
 
         .contact-links-and-avatar {
             display: flex;
-            align-items: center; 
-            gap: 3rem; 
-            margin-top: 2rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-top: 1rem;
         }
 
         .contact-links {
             display: flex;
-            flex-direction: row; 
-            gap: 2rem; 
+            flex-wrap: wrap;
+            gap: 1rem 1.5rem;
         }
 
         .connect-link {
-            font-size: 1.5rem; 
-            border-color: rgba(255,255,255,0.4);
+            font-family: var(--font-sans);
+            font-size: clamp(1.05rem, 3vw, 1.35rem);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            padding-bottom: 0.15rem;
         }
 
         .contact-avatar-logo {
-            width: 70px; 
-            height: 70px;
-            border-radius: 50%; 
-            object-fit: cover; 
-            object-position: top center; 
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top center;
             filter: grayscale(100%) contrast(110%);
-            background-color: var(--bg-intro); 
-            border: 2px solid rgba(255,255,255,0.15); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background-color: var(--bg-intro);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
-        
+
+        @media (min-width: 768px) {
+            .persistent-header {
+                font-size: clamp(3rem, 7vw, 5rem);
+            }
+
+            #pane-00 {
+                min-height: 66svh;
+            }
+
+            .hero-shell {
+                gap: 2rem;
+            }
+
+            .contact-links-and-avatar {
+                flex-direction: row;
+                align-items: center;
+                gap: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .persistent-header {
+                position: fixed;
+                top: 50vh;
+                left: 50%;
+                padding: 0;
+                font-size: clamp(3.3rem, 6.6vw, 5.5rem);
+                transform: translate(-50%, -50%) scale(1);
+                transform-origin: center center;
+            }
+
+            .persistent-header span {
+                max-width: none;
+                white-space: nowrap;
+            }
+
+            .frame-nav {
+                position: fixed;
+                top: var(--frame-padding);
+                left: var(--frame-padding);
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0;
+                overflow: visible;
+                background: none;
+                backdrop-filter: none;
+            }
+
+            .nav-item {
+                font-size: 0.65rem;
+            }
+
+            .frame-quick-links {
+                position: fixed;
+                right: var(--frame-padding);
+                bottom: var(--frame-padding);
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 0.8rem;
+                font-family: var(--font-sans);
+                font-size: 0.6rem;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+
+            .frame-quick-links a {
+                color: var(--text-muted);
+                opacity: 0.6;
+            }
+
+            .frame-quick-links a:hover {
+                opacity: 1;
+                color: var(--text-dark);
+            }
+
+            body.on-dark-pane .frame-quick-links a {
+                color: rgba(255, 255, 255, 0.4);
+            }
+
+            body.on-dark-pane .frame-quick-links a:hover {
+                color: var(--text-light);
+            }
+
+            section {
+                position: sticky;
+                top: 0;
+                min-height: 100svh;
+                padding: 0 calc(var(--frame-padding) * 2);
+                margin-bottom: 25svh;
+                display: flex;
+                align-items: center;
+            }
+
+            #pane-00 {
+                align-items: stretch;
+                padding-top: 0;
+                min-height: calc(100svh - 1rem);
+            }
+
+            .hero-shell {
+                align-self: stretch;
+                display: block;
+                position: relative;
+                max-width: none;
+            }
+
+            .hero-subtitle-container {
+                position: absolute;
+                top: 65vh;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
+                max-width: none;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                text-align: center;
+                font-size: 0.75rem;
+            }
+
+            .scroll-indicator {
+                position: absolute;
+                left: 50%;
+                bottom: var(--frame-padding);
+                transform: translateX(-50%);
+                align-items: center;
+            }
+
+            .split-grid {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            }
+
+            #pane-01 .product-visual img {
+                max-height: 65vh;
+                margin-top: 5rem;
+            }
+
+            #pane-02 .product-visual {
+                min-height: 75vh;
+            }
+
+            #pane-02 .product-visual img {
+                max-width: 350px;
+            }
+
+            #pane-03 {
+                align-items: flex-start;
+            }
+
+            #pane-03 .split-grid {
+                min-height: 100svh;
+            }
+
+            #pane-03 .product-visual {
+                min-height: 87.5vh;
+                align-self: flex-start;
+            }
+
+            #pane-03 .product-visual img {
+                max-width: 200px;
+                max-height: 45vh;
+            }
+
+            #pane-03 .text-block {
+                align-self: center;
+                transform: translateY(-12.5vh);
+            }
+
+            #pane-04,
+            #pane-05 {
+                min-height: 72svh;
+                align-items: flex-start;
+                padding-top: clamp(5rem, 10vh, 8rem);
+            }
+
+            #pane-06 {
+                min-height: 82svh;
+                align-items: flex-start;
+                padding-top: clamp(5rem, 10vh, 8rem);
+            }
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;600&family=Montserrat:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="persistent-header" id="brand-header"><span>Anunag Jayanti.</span></div>
 
-    <div class="persistent-header" id="brand-header">Anunag Jayanti.</div>
-
-    <div class="frame-nav">
-        <span class="nav-item active" data-target="pane-00" id="nav-00">[ 00 ] Hello</span>
-        <span class="nav-item" data-target="pane-01" id="nav-01">[ 01 ] Intro</span>
-        <span class="nav-item" data-target="pane-02" id="nav-products">[ 02 ] Products</span>
-        <span class="nav-item" data-target="pane-04" id="nav-04">[ 03 ] Library</span>
-        <span class="nav-item" data-target="pane-05" id="nav-05">[ 04 ] Archive</span>
-        <span class="nav-item" data-target="pane-06" id="nav-06">[ 05 ] Connect</span>
+    <div class="frame-nav" aria-label="Section navigation">
+        <button class="nav-item active" data-target="pane-00" id="nav-00" type="button">[ 00 ] Hello</button>
+        <button class="nav-item" data-target="pane-01" id="nav-01" type="button">[ 01 ] Intro</button>
+        <button class="nav-item" data-target="pane-02" id="nav-products" type="button">[ 02 ] Products</button>
+        <button class="nav-item" data-target="pane-04" id="nav-04" type="button">[ 03 ] Library</button>
+        <button class="nav-item" data-target="pane-05" id="nav-05" type="button">[ 04 ] Archive</button>
+        <button class="nav-item" data-target="pane-06" id="nav-06" type="button">[ 05 ] Connect</button>
     </div>
 
     <div class="frame-quick-links">
-        <a href="https://uplevel.guide/" target="_blank">UpLevel ↗</a>
-        <a href="https://www.deadscroll.app/" target="_blank">DeadScroll ↗</a>
-        <a href="https://www.linkedin.com" target="_blank">My LinkedIn ↗</a>
+        <a href="https://uplevel.guide/" target="_blank" rel="noreferrer">UpLevel &nearr;</a>
+        <a href="https://www.deadscroll.app/" target="_blank" rel="noreferrer">DeadScroll &nearr;</a>
+        <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">My LinkedIn &nearr;</a>
     </div>
 
     <main>
         <section id="pane-00">
-            <div class="hero-subtitle-container" id="brand-tagline">
-                <div class="hero-subtitle">I build quiet tools for a noisy world.</div>
-            </div>
-            <div class="scroll-indicator">
-                Scroll to explore
-                <div class="scroll-line"></div>
+            <div class="hero-shell content">
+                <div class="hero-subtitle-container" id="brand-tagline">
+                    <div class="hero-subtitle">I build quiet tools for a noisy world.</div>
+                </div>
+                <div class="scroll-indicator">
+                    <span>Scroll to explore</span>
+                    <div class="scroll-line"></div>
+                </div>
             </div>
         </section>
 
         <section id="pane-01">
             <div class="content split-grid">
                 <div class="product-visual">
-                    <img src="Anunag image 2.jpg" alt="Anunag Jayanti Portrait">
+                    <img src="Anunag image 2.jpg" alt="Anunag Jayanti portrait">
                 </div>
                 <div class="text-block">
                     <div class="section-label">01 / The Builder</div>
@@ -377,13 +643,13 @@
         <section id="pane-02">
             <div class="content split-grid">
                 <div class="product-visual">
-                    <img src="uplevel-logo-transparent.png" alt="UpLevel Logo">
+                    <img src="uplevel-logo-transparent.png" alt="UpLevel logo">
                 </div>
                 <div class="text-block">
                     <div class="section-label">02 / Products</div>
                     <h2>UpLevel</h2>
-                    <p>Job interviews are fundamentally anxious experiences. I’m building an AI intelligence platform to organize the chaos, strip away that friction, and give people their confidence back.</p>
-                    <a href="https://uplevel.guide/" target="_blank" style="border-bottom: 1px solid rgba(0,0,0,0.2);">Visit Platform ↗</a>
+                    <p>Job interviews are fundamentally anxious experiences. I'm building an AI intelligence platform to organize the chaos, strip away that friction, and give people their confidence back.</p>
+                    <a href="https://uplevel.guide/" target="_blank" rel="noreferrer" class="inline-link">Visit Platform &nearr;</a>
                 </div>
             </div>
         </section>
@@ -391,13 +657,13 @@
         <section id="pane-03">
             <div class="content split-grid">
                 <div class="product-visual">
-                    <img src="ic_launcher_custom.png" alt="DeadScroll Hourglass Logo">
+                    <img src="ic_launcher_custom.png" alt="DeadScroll hourglass logo">
                 </div>
                 <div class="text-block">
                     <div class="section-label">02 / Products</div>
                     <h2 class="brand-deadscroll">DEADSCROLL</h2>
                     <p>An ongoing experiment in digital minimalism. A tool designed specifically to introduce mindful friction, helping you put your phone down and reclaim your mental bandwidth.</p>
-                    <a href="https://www.deadscroll.app/" target="_blank" style="border-bottom: 1px solid rgba(0,0,0,0.2);">Visit Project ↗</a>
+                    <a href="https://www.deadscroll.app/" target="_blank" rel="noreferrer" class="inline-link">Visit Project &nearr;</a>
                 </div>
             </div>
         </section>
@@ -407,11 +673,11 @@
                 <div class="section-label">03 / The Library</div>
                 <ul class="item-list">
                     <li>
-                        <a href="https://anunagjayanti.medium.com/tale-of-3-llms-building-product-quality-by-organizing-ai-intelligence-0e062ff59d80" target="_blank" class="item-title">Tale of 3 LLMs: Building Product Quality ↗</a>
+                        <a href="https://anunagjayanti.medium.com/tale-of-3-llms-building-product-quality-by-organizing-ai-intelligence-0e062ff59d80" target="_blank" rel="noreferrer" class="item-title">Tale of 3 LLMs: Building Product Quality &nearr;</a>
                         <div class="item-desc">Organizing AI intelligence to build robust, high-quality products.</div>
                     </li>
                     <li>
-                        <a href="https://anunagjayanti.medium.com/design-the-experience-then-the-agents-how-uplevel-was-built-486b90a1ed76" target="_blank" class="item-title">Design the Experience, Then the Agents ↗</a>
+                        <a href="https://anunagjayanti.medium.com/design-the-experience-then-the-agents-how-uplevel-was-built-486b90a1ed76" target="_blank" rel="noreferrer" class="item-title">Design the Experience, Then the Agents &nearr;</a>
                         <div class="item-desc">A look under the hood at how UpLevel was architected from the user backward.</div>
                     </li>
                 </ul>
@@ -422,104 +688,100 @@
             <div class="content">
                 <div class="section-label">04 / The Archive</div>
                 <ul class="item-list">
-                    <li><a href="https://anunagjayanti.medium.com/outcome-based-processes-an-intelligent-alternative-10e51e8b6f21" target="_blank" class="item-title">Outcome-Based Processes: An Intelligent Alternative ↗</a></li>
-                    <li><a href="https://anunagjayanti.medium.com/why-companies-use-linear-business-process-ca1997d417d5" target="_blank" class="item-title">Why Companies Use Linear Business Process ↗</a></li>
+                    <li><a href="https://anunagjayanti.medium.com/outcome-based-processes-an-intelligent-alternative-10e51e8b6f21" target="_blank" rel="noreferrer" class="item-title">Outcome-Based Processes: An Intelligent Alternative &nearr;</a></li>
+                    <li><a href="https://anunagjayanti.medium.com/why-companies-use-linear-business-process-ca1997d417d5" target="_blank" rel="noreferrer" class="item-title">Why Companies Use Linear Business Process &nearr;</a></li>
                 </ul>
             </div>
         </section>
 
         <section id="pane-06">
             <div class="content">
-                <div class="section-label" style="border-color: rgba(255,255,255,0.2);">05 / Connect</div>
-                
+                <div class="section-label">05 / Connect</div>
                 <div class="contact-stack">
                     <h2>I'm always open to talking about intelligent systems, digital minimalism, or a good sci-fi universe.</h2>
-                    
                     <div class="contact-links-and-avatar">
-                        
                         <div class="contact-links">
-                            <a href="https://www.linkedin.com" target="_blank" class="connect-link">LinkedIn ↗</a>
-                            <a href="mailto:jayanti.nag@gmail.com" class="connect-link">Email Me ↗</a>
+                            <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" class="connect-link">LinkedIn &nearr;</a>
+                            <a href="mailto:jayanti.nag@gmail.com" class="connect-link">Email Me &nearr;</a>
                         </div>
-                        
-                        <!-- Using Image 1 for the footer badge -->
-                        <img src="Anunag image 1.jpg" alt="Anunag Jayanti Contact Avatar" class="contact-avatar-logo">
-                        
+                        <img src="Anunag image 1.jpg" alt="Anunag Jayanti contact avatar" class="contact-avatar-logo">
                     </div>
                 </div>
-                
             </div>
         </section>
     </main>
 
     <script>
-        const header = document.getElementById('brand-header');
-        const tagline = document.getElementById('brand-tagline');
+        const header = document.getElementById("brand-header");
+        const tagline = document.getElementById("brand-tagline");
         const body = document.body;
+        const sections = Array.from(document.querySelectorAll("section"));
+        const navItems = Array.from(document.querySelectorAll(".nav-item"));
+        const desktopMedia = window.matchMedia("(min-width: 1024px)");
+
+        function syncNav(activeId) {
+            navItems.forEach((item) => item.classList.remove("active"));
+
+            if (activeId === "pane-02" || activeId === "pane-03") {
+                document.getElementById("nav-products").classList.add("active");
+                return;
+            }
+
+            const targetNav = document.querySelector(`[data-target="${activeId}"]`);
+            if (targetNav) targetNav.classList.add("active");
+        }
 
         function updateOnScroll() {
-            const maxScroll = window.innerHeight * 0.6; 
-            let prog = window.scrollY / maxScroll;
-            if (prog > 1) prog = 1;
-            if (prog < 0) prog = 0;
+            let activeId = "pane-00";
 
-            const startTop = window.innerHeight * 0.5; 
-            const endTop = 40; 
-            const currentTop = startTop - ((startTop - endTop) * prog);
-            
-            const currentScale = 1 - (0.65 * prog); 
-            
-            header.style.top = `${currentTop}px`;
-            header.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
-            
-            if (tagline) tagline.style.opacity = 1 - (prog * 2); 
-
-            let activeId = 'pane-00';
-            document.querySelectorAll('section').forEach(pane => {
+            sections.forEach((pane) => {
                 const rect = pane.getBoundingClientRect();
                 if (rect.top <= window.innerHeight * 0.5) {
                     activeId = pane.id;
                 }
             });
 
-            if (activeId === 'pane-06') { body.classList.add('on-dark-pane'); } 
-            else { body.classList.remove('on-dark-pane'); }
+            body.classList.toggle("on-dark-pane", activeId === "pane-06");
+            syncNav(activeId);
 
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            if (activeId === 'pane-02' || activeId === 'pane-03') {
-                document.getElementById('nav-products').classList.add('active');
-            } else {
-                const targetNav = document.querySelector(`[data-target="${activeId}"]`);
-                if (targetNav) targetNav.classList.add('active');
+            if (!desktopMedia.matches) {
+                header.style.top = "";
+                header.style.left = "";
+                header.style.transform = "";
+                if (tagline) tagline.style.opacity = "";
+                return;
             }
+
+            const maxScroll = window.innerHeight * 0.6;
+            let prog = window.scrollY / maxScroll;
+            prog = Math.max(0, Math.min(1, prog));
+
+            const startTop = window.innerHeight * 0.5;
+            const endTop = 40;
+            const currentTop = startTop - ((startTop - endTop) * prog);
+            const currentScale = 1 - (0.65 * prog);
+
+            header.style.top = `${currentTop}px`;
+            header.style.left = "50%";
+            header.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
+
+            if (tagline) tagline.style.opacity = String(1 - (prog * 2));
         }
 
-        window.addEventListener('scroll', updateOnScroll);
-        window.addEventListener('resize', updateOnScroll);
-        updateOnScroll();
-
-        // FIX: The scroll navigation now uses absolute mathematical coordinates. 
-        // Because of the 'position: sticky' stacking, relying on DOM placement was failing.
-        // Since every section is exactly 100vh tall + 25vh margin, we can predict the exact scroll position.
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const targetId = item.getAttribute('data-target');
+        navItems.forEach((item) => {
+            item.addEventListener("click", () => {
+                const targetId = item.getAttribute("data-target");
                 const targetEl = document.getElementById(targetId);
-                
                 if (targetEl) {
-                    // Find which number section this is in the document flow
-                    const panes = Array.from(document.querySelectorAll('section'));
-                    const index = panes.indexOf(targetEl);
-                    
-                    // Multiply index by total height of a section (100vh + 25vh = 125vh or 1.25 * innerHeight)
-                    const absoluteScrollPosition = index * (window.innerHeight * 1.25);
-                    
-                    // Force window to scroll to this exact mathematical coordinate
-                    window.scrollTo({ top: absoluteScrollPosition, behavior: 'smooth' });
+                    targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
             });
         });
+
+        window.addEventListener("scroll", updateOnScroll, { passive: true });
+        window.addEventListener("resize", updateOnScroll);
+        desktopMedia.addEventListener("change", updateOnScroll);
+        updateOnScroll();
     </script>
 </body>
 </html>
