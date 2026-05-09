@@ -70,19 +70,25 @@
         }
 
         .persistent-header {
-            position: relative;
+            position: fixed;
+            top: 38svh;
+            left: 50%;
             z-index: 105;
-            padding: 1rem var(--section-pad-inline) 0.35rem;
-            font-size: clamp(2.2rem, 8vw, 4.4rem);
+            width: min(92vw, 14ch);
+            padding: 0;
+            font-size: clamp(2.9rem, 12vw, 4.8rem);
             line-height: 0.95;
             letter-spacing: -0.03em;
             color: var(--text-dark);
+            text-align: center;
+            transform: translate(-50%, -50%) scale(1);
+            transform-origin: center center;
             transition: color 0.4s ease;
         }
 
         .persistent-header span {
             display: inline-block;
-            max-width: min(12ch, 100%);
+            max-width: 100%;
             white-space: normal;
         }
 
@@ -91,35 +97,40 @@
         }
 
         .frame-nav {
-            position: sticky;
-            top: 0;
+            position: fixed;
+            top: 1rem;
+            left: 50%;
             z-index: 104;
-            display: flex;
-            gap: 0.6rem;
-            padding: 0.25rem var(--section-pad-inline) 0.9rem;
-            overflow-x: auto;
-            scrollbar-width: none;
-            background: linear-gradient(to bottom, rgba(250, 249, 246, 0.96), rgba(250, 249, 246, 0.82));
-            backdrop-filter: blur(10px);
-        }
-
-        .frame-nav::-webkit-scrollbar {
-            display: none;
+            width: min(92vw, 26rem);
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.55rem;
+            padding: 0.85rem;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 1.1rem;
+            background: rgba(250, 249, 246, 0.82);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transform: translate(-50%, -12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s ease, background 0.28s ease;
         }
 
         .nav-item {
-            flex: 0 0 auto;
             cursor: pointer;
             color: var(--text-muted);
-            padding: 0.45rem 0.85rem;
+            min-width: 0;
+            padding: 0.48rem 0.65rem;
             border-radius: 999px;
             background-color: transparent;
             border: 1px solid rgba(0, 0, 0, 0.08);
             font-family: var(--font-sans);
-            font-size: 0.7rem;
+            font-size: 0.64rem;
             font-weight: 600;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
@@ -130,7 +141,7 @@
         }
 
         body.on-dark-pane .frame-nav {
-            background: linear-gradient(to bottom, rgba(18, 18, 18, 0.94), rgba(18, 18, 18, 0.75));
+            background: rgba(18, 18, 18, 0.84);
         }
 
         body.on-dark-pane .nav-item {
@@ -148,14 +159,24 @@
             display: none;
         }
 
+        body.nav-revealed .frame-nav {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
+
         section {
-            position: relative;
+            position: sticky;
+            top: 0;
             width: 100%;
-            min-height: auto;
-            padding: var(--section-pad-block) var(--section-pad-inline);
+            min-height: 100svh;
+            padding: clamp(5rem, 10vw, 7rem) var(--section-pad-inline);
+            margin-bottom: 18svh;
             border-top: var(--border-soft);
             overflow: clip;
             box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: center;
         }
 
         .content {
@@ -166,12 +187,13 @@
 
         #pane-00 {
             display: flex;
-            align-items: flex-end;
-            min-height: 58svh;
+            align-items: stretch;
+            min-height: 100svh;
             background-color: var(--bg-bone);
             border-top: 0;
             box-shadow: none;
-            padding-top: 1rem;
+            padding-top: 0;
+            margin-bottom: 16svh;
         }
 
         #pane-01 { background-color: var(--bg-intro); }
@@ -194,13 +216,21 @@
             width: 100%;
             max-width: var(--page-max);
             margin: 0 auto;
-            display: grid;
-            gap: 1.5rem;
-            align-items: end;
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
         }
 
         .hero-subtitle-container {
+            position: absolute;
+            top: 52svh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(88vw, 24rem);
             max-width: 24rem;
+            text-align: center;
         }
 
         .hero-subtitle {
@@ -210,12 +240,13 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: var(--text-muted);
+            line-height: 1.5;
         }
 
         .scroll-indicator {
             display: inline-flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             gap: 0.65rem;
             font-family: var(--font-sans);
             font-size: 0.65rem;
@@ -224,6 +255,8 @@
             text-transform: uppercase;
             color: var(--color-pill);
             opacity: 0.8;
+            align-self: center;
+            margin-bottom: 3.5rem;
         }
 
         .scroll-line {
@@ -277,6 +310,7 @@
         #pane-01 .product-visual img {
             max-width: min(28rem, 100%);
             margin-inline: auto;
+            max-height: 56svh;
             object-fit: contain;
             mix-blend-mode: multiply;
             filter: grayscale(100%) contrast(110%);
@@ -405,15 +439,22 @@
 
         @media (min-width: 768px) {
             .persistent-header {
-                font-size: clamp(3rem, 7vw, 5rem);
+                width: min(78vw, 15ch);
+                font-size: clamp(3.4rem, 10vw, 5.2rem);
             }
 
-            #pane-00 {
-                min-height: 66svh;
+            .frame-nav {
+                width: min(84vw, 34rem);
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
             .hero-shell {
-                gap: 2rem;
+                justify-content: flex-end;
+            }
+
+            .hero-subtitle-container {
+                top: 54svh;
+                width: min(78vw, 30rem);
             }
 
             .contact-links-and-avatar {
@@ -429,13 +470,10 @@
             }
 
             .persistent-header {
-                position: fixed;
                 top: 50vh;
-                left: 50%;
-                padding: 0;
+                width: auto;
                 font-size: clamp(3.3rem, 6.6vw, 5.5rem);
                 transform: translate(-50%, -50%) scale(1);
-                transform-origin: center center;
             }
 
             .persistent-header span {
@@ -444,16 +482,22 @@
             }
 
             .frame-nav {
-                position: fixed;
                 top: var(--frame-padding);
                 left: var(--frame-padding);
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
+                width: auto;
                 padding: 0;
+                border: 0;
+                border-radius: 0;
                 overflow: visible;
                 background: none;
                 backdrop-filter: none;
+                box-shadow: none;
+                opacity: 1;
+                pointer-events: auto;
+                transform: none;
             }
 
             .nav-item {
@@ -495,13 +539,8 @@
             }
 
             section {
-                position: sticky;
-                top: 0;
-                min-height: 100svh;
                 padding: 0 calc(var(--frame-padding) * 2);
                 margin-bottom: 25svh;
-                display: flex;
-                align-items: center;
             }
 
             #pane-00 {
@@ -511,9 +550,6 @@
             }
 
             .hero-shell {
-                align-self: stretch;
-                display: block;
-                position: relative;
                 max-width: none;
             }
 
@@ -744,28 +780,24 @@
             body.classList.toggle("on-dark-pane", activeId === "pane-06");
             syncNav(activeId);
 
-            if (!desktopMedia.matches) {
-                header.style.top = "";
-                header.style.left = "";
-                header.style.transform = "";
-                if (tagline) tagline.style.opacity = "";
-                return;
-            }
-
-            const maxScroll = window.innerHeight * 0.6;
+            const isDesktop = desktopMedia.matches;
+            const maxScroll = window.innerHeight * (isDesktop ? 0.6 : 0.72);
             let prog = window.scrollY / maxScroll;
             prog = Math.max(0, Math.min(1, prog));
 
-            const startTop = window.innerHeight * 0.5;
-            const endTop = 40;
+            const startTop = window.innerHeight * (isDesktop ? 0.5 : 0.38);
+            const endTop = isDesktop ? 40 : 94;
             const currentTop = startTop - ((startTop - endTop) * prog);
-            const currentScale = 1 - (0.65 * prog);
+            const currentScale = 1 - ((isDesktop ? 0.65 : 0.56) * prog);
 
             header.style.top = `${currentTop}px`;
             header.style.left = "50%";
             header.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
+            body.classList.toggle("nav-revealed", prog > (isDesktop ? 0.05 : 0.22));
 
-            if (tagline) tagline.style.opacity = String(1 - (prog * 2));
+            if (tagline) {
+                tagline.style.opacity = String(Math.max(0, 1 - (prog * (isDesktop ? 2 : 1.7))));
+            }
         }
 
         navItems.forEach((item) => {
