@@ -322,12 +322,12 @@
 
         @media (max-width: 767px) {
             #pane-01 {
-                position: sticky;
-                min-height: 100svh;
+                position: relative;
+                min-height: auto;
                 align-items: flex-start;
                 padding-top: 5rem;
-                padding-bottom: 4rem;
-                margin-bottom: 4svh;
+                padding-bottom: 3rem;
+                margin-bottom: 0;
             }
 
             #pane-01 .content {
@@ -349,7 +349,8 @@
 
             #pane-02 {
                 align-items: flex-start;
-                padding-top: 3rem;
+                margin-top: -5svh;
+                padding-top: calc(3rem + 5svh);
                 padding-bottom: 3rem;
             }
         }
@@ -824,12 +825,9 @@
             const compactGap = isDesktop ? 18 : 2;
             const compactNavTop = isDesktop ? 16 : compactHeaderTop + (headerHeight * compactScale) + compactGap;
             const sectionStarts = {};
-            let runningTop = 0;
 
             sections.forEach((section) => {
-                sectionStarts[section.id] = runningTop;
-                const styles = window.getComputedStyle(section);
-                runningTop += section.offsetHeight + parseFloat(styles.marginBottom || "0");
+                sectionStarts[section.id] = section.offsetTop;
             });
 
             const introTop = sectionStarts[introPane.id] ?? 0;
