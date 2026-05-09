@@ -98,10 +98,10 @@
 
         .frame-nav {
             position: fixed;
-            top: 6.6rem;
+            top: 5.4rem;
             left: 50%;
             z-index: 104;
-            width: min(90vw, 24rem);
+            width: min(88vw, 23rem);
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 0.45rem;
@@ -444,8 +444,8 @@
             }
 
             .frame-nav {
-                top: 7.2rem;
-                width: min(84vw, 34rem);
+                top: 5.9rem;
+                width: min(82vw, 31rem);
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
@@ -489,7 +489,7 @@
 
             .frame-nav {
                 top: var(--frame-padding);
-                left: calc(var(--frame-padding) + 0.5rem);
+                left: max(1.75rem, calc((100vw - var(--page-max)) / 2 - 7rem));
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
@@ -758,11 +758,38 @@
     <script>
         const header = document.getElementById("brand-header");
         const tagline = document.getElementById("brand-tagline");
+        const frameNav = document.querySelector(".frame-nav");
         const body = document.body;
         const sections = Array.from(document.querySelectorAll("section"));
+        const introPane = document.getElementById("pane-01");
         const navItems = Array.from(document.querySelectorAll(".nav-item"));
         const darkPane = document.getElementById("pane-06");
         const desktopMedia = window.matchMedia("(min-width: 1024px)");
+        const layoutState = {
+            compactHeaderTop: 18,
+            compactNavTop: 0,
+            heroEnd: 1,
+            navRevealPoint: 1
+        };
+
+        function measureLayout() {
+            const isDesktop = desktopMedia.matches;
+            const headerHeight = header.getBoundingClientRect().height;
+            const navHeight = frameNav.getBoundingClientRect().height;
+            const compactHeaderTop = isDesktop ? 40 : 24;
+            const compactGap = isDesktop ? 18 : 10;
+            const compactNavTop = isDesktop ? 16 : compactHeaderTop + headerHeight + compactGap;
+            const introTop = introPane.offsetTop;
+            const heroEnd = Math.max(120, introTop - (compactNavTop + navHeight + 32));
+            const navRevealPoint = isDesktop ? 0 : Math.max(72, heroEnd - (navHeight + 24));
+
+            layoutState.compactHeaderTop = compactHeaderTop;
+            layoutState.compactNavTop = compactNavTop;
+            layoutState.heroEnd = heroEnd;
+            layoutState.navRevealPoint = navRevealPoint;
+
+            frameNav.style.top = isDesktop ? "" : `${compactNavTop}px`;
+        }
 
         function syncNav(activeId) {
             navItems.forEach((item) => item.classList.remove("active"));
@@ -777,34 +804,32 @@
         }
 
         function updateOnScroll() {
+            const scrollAnchor = window.scrollY + (window.innerHeight * 0.5);
             let activeId = "pane-00";
 
             sections.forEach((pane) => {
-                const rect = pane.getBoundingClientRect();
-                if (rect.top <= window.innerHeight * 0.5) {
+                if (scrollAnchor >= pane.offsetTop) {
                     activeId = pane.id;
                 }
             });
 
             const darkRect = darkPane.getBoundingClientRect();
-            const darkThreshold = desktopMedia.matches ? 0.22 : 0.14;
-            body.classList.toggle("on-dark-pane", darkRect.top <= window.innerHeight * darkThreshold);
+            const darkRatio = Math.min(1, Math.max(0, (window.innerHeight - darkRect.top) / Math.max(darkRect.height, 1)));
+            body.classList.toggle("on-dark-pane", darkRatio >= (desktopMedia.matches ? 0.55 : 0.45));
             syncNav(activeId);
 
             const isDesktop = desktopMedia.matches;
-            const maxScroll = window.innerHeight * (isDesktop ? 0.6 : 0.72);
-            let prog = window.scrollY / maxScroll;
+            const startTop = isDesktop ? (window.innerHeight * 0.5) : Math.round((window.innerHeight - header.getBoundingClientRect().height) / 2);
+            const endTop = layoutState.compactHeaderTop;
+            let prog = window.scrollY / layoutState.heroEnd;
             prog = Math.max(0, Math.min(1, prog));
-
-            const startTop = window.innerHeight * (isDesktop ? 0.5 : 0.38);
-            const endTop = isDesktop ? 40 : 18;
             const currentTop = startTop - ((startTop - endTop) * prog);
             const currentScale = 1 - ((isDesktop ? 0.65 : 0.56) * prog);
 
             header.style.top = `${currentTop}px`;
             header.style.left = "50%";
             header.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
-            body.classList.toggle("nav-revealed", prog > (isDesktop ? 0.05 : 0.26));
+            body.classList.toggle("nav-revealed", isDesktop || window.scrollY >= layoutState.navRevealPoint);
 
             if (tagline) {
                 tagline.style.opacity = String(Math.max(0, 1 - (prog * (isDesktop ? 2 : 1.7))));
@@ -823,8 +848,15 @@
         });
 
         window.addEventListener("scroll", updateOnScroll, { passive: true });
-        window.addEventListener("resize", updateOnScroll);
-        desktopMedia.addEventListener("change", updateOnScroll);
+        window.addEventListener("resize", () => {
+            measureLayout();
+            updateOnScroll();
+        });
+        desktopMedia.addEventListener("change", () => {
+            measureLayout();
+            updateOnScroll();
+        });
+        measureLayout();
         updateOnScroll();
     </script>
 </body>
