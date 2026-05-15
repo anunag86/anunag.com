@@ -669,9 +669,14 @@
 
             #pane-04,
             #pane-05 {
-                min-height: 72svh;
+                min-height: 68svh;
                 align-items: flex-start;
-                padding-top: clamp(5rem, 10vh, 8rem);
+                padding-top: clamp(4.5rem, 8vh, 6.5rem);
+                margin-bottom: 16svh;
+            }
+
+            #pane-04 .item-list {
+                gap: 1.6rem;
             }
 
             #pane-06 {
@@ -760,6 +765,10 @@
                 <div class="section-label">03 / The Library</div>
                 <ul class="item-list">
                     <li>
+                        <a href="https://anunagjayanti.medium.com/too-many-cooks-an-autopsy-of-the-ai-hype-cycle-25ee276a88fc" target="_blank" rel="noreferrer" class="item-title">Too Many Cooks: An Autopsy of the AI Hype Cycle &nearr;</a>
+                        <div class="item-desc">As the cost of code plummets, product taste becomes the differentiator: understanding user motivations and solving for them elegantly.</div>
+                    </li>
+                    <li>
                         <a href="https://anunagjayanti.medium.com/tale-of-3-llms-building-product-quality-by-organizing-ai-intelligence-0e062ff59d80" target="_blank" rel="noreferrer" class="item-title">Tale of 3 LLMs: Building Product Quality &nearr;</a>
                         <div class="item-desc">Organizing AI intelligence to build robust, high-quality products.</div>
                     </li>
@@ -825,9 +834,10 @@
             const compactGap = isDesktop ? 18 : 2;
             const compactNavTop = isDesktop ? 16 : compactHeaderTop + (headerHeight * compactScale) + compactGap;
             const sectionStarts = {};
+            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
 
             sections.forEach((section) => {
-                sectionStarts[section.id] = section.offsetTop;
+                sectionStarts[section.id] = Math.min(section.offsetTop, maxScroll);
             });
 
             const introTop = sectionStarts[introPane.id] ?? 0;
@@ -860,7 +870,8 @@
             let activeId = "pane-00";
 
             sections.forEach((pane) => {
-                if (scrollAnchor >= pane.offsetTop) {
+                const paneStart = layoutState.sectionStarts[pane.id] ?? pane.offsetTop;
+                if (scrollAnchor >= paneStart) {
                     activeId = pane.id;
                 }
             });
