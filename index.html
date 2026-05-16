@@ -409,6 +409,40 @@
             border-color: var(--text-dark);
         }
 
+        .product-cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.8rem 1rem;
+            margin-top: 0.35rem;
+        }
+
+        .play-listing-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.38rem 0.62rem;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 0.6rem;
+            background: rgba(255, 255, 255, 0.92);
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1;
+            color: #1a73e8;
+            white-space: nowrap;
+        }
+
+        .play-listing-link:hover {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .play-listing-link svg {
+            width: 1rem;
+            height: 1rem;
+            flex: 0 0 auto;
+        }
+
         .item-list {
             list-style: none;
             display: grid;
@@ -812,7 +846,18 @@
                     <div class="section-label">02 / Products</div>
                     <h2 class="brand-deadscroll">DEADSCROLL</h2>
                     <p>DeadScroll is an experiment in mindful friction that gently pulls you out of infinite scrolling and compulsive social media use through progressively stronger nudges. It creates just enough pause for you to intentionally reclaim your time and mental bandwidth. It is an attempt to go beyond traditional app blockers, which rarely stick.</p>
-                    <a href="https://www.deadscroll.app/" target="_blank" rel="noreferrer" class="inline-link">Visit Project &nearr;</a>
+                    <div class="product-cta-row">
+                        <a href="https://www.deadscroll.app/" target="_blank" rel="noreferrer" class="inline-link">Visit Project &nearr;</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.reclaim.deepwork&hl=en_IN" target="_blank" rel="noreferrer" class="play-listing-link" aria-label="View DeadScroll on Google Play">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill="#34A853" d="M3.9 2.4 13.8 12 3.9 21.6c-.6-.4-.9-1-.9-1.8V4.2c0-.8.3-1.4.9-1.8z"/>
+                                <path fill="#4285F4" d="m16.7 14.8-2.9-2.8L3.9 21.6c.2.1.5.2.8.2.4 0 .8-.1 1.2-.3l10.8-6.2z"/>
+                                <path fill="#FBBC04" d="M17.9 9.2 6 2.5c-.4-.2-.8-.3-1.2-.3-.3 0-.6.1-.8.2l9.9 9.6 4-2.3c1.1-.6 1.1-1.5 0-2.1z"/>
+                                <path fill="#EA4335" d="m16.7 14.8 1.2-.7c1.1-.6 1.1-1.5 0-2.1l-1.2-.7-2.9 2.7 2.9 2.8z"/>
+                            </svg>
+                            <span>Google Play listing</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
