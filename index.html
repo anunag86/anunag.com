@@ -456,12 +456,71 @@
             gap: 1rem 1.5rem;
         }
 
+        .copy-email-wrap {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .connect-link {
             font-family: var(--font-sans);
             font-size: clamp(1.05rem, 3vw, 1.35rem);
             font-weight: 500;
             border-bottom: 1px solid rgba(255, 255, 255, 0.4);
             padding-bottom: 0.15rem;
+        }
+
+        button.connect-link {
+            appearance: none;
+            cursor: pointer;
+            color: inherit;
+            background: transparent;
+            border-top: 0;
+            border-right: 0;
+            border-left: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            padding-top: 0;
+            padding-right: 0;
+            padding-left: 0;
+            text-align: left;
+        }
+
+        .copy-email-note,
+        .copy-email-confirm {
+            margin-top: 0.35rem;
+            font-family: var(--font-sans);
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            opacity: 0;
+            transform: translateY(-2px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+
+        .copy-email-note {
+            color: rgba(255, 255, 255, 0.68);
+            text-transform: none;
+        }
+
+        .copy-email-confirm {
+            position: absolute;
+            top: calc(100% + 0.35rem);
+            left: 0;
+            color: rgba(255, 255, 255, 0.88);
+            text-transform: uppercase;
+        }
+
+        .copy-email-wrap:hover .copy-email-note,
+        .copy-email-wrap:focus-within .copy-email-note {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .copy-email-wrap.is-copied .copy-email-confirm {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .contact-avatar-logo {
@@ -798,7 +857,11 @@
                     <div class="contact-links-and-avatar">
                         <div class="contact-links">
                             <a href="https://www.linkedin.com/in/anunagjayanti/" target="_blank" rel="noreferrer" class="connect-link">My LinkedIn &nearr;</a>
-                            <a href="mailto:jayanti.nag@gmail.com" class="connect-link">Email Me &nearr;</a>
+                            <div class="copy-email-wrap">
+                                <button type="button" class="connect-link copy-email-trigger" data-email="jayanti.nag@gmail.com">Email Me &nearr;</button>
+                                <span class="copy-email-note">jayanti.nag@gmail.com</span>
+                                <span class="copy-email-confirm" aria-live="polite">Copied</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -816,6 +879,7 @@
         const navItems = Array.from(document.querySelectorAll(".nav-item"));
         const darkPane = document.getElementById("pane-06");
         const desktopMedia = window.matchMedia("(min-width: 1024px)");
+        const copyEmailTriggers = Array.from(document.querySelectorAll(".copy-email-trigger"));
         const layoutState = {
             compactHeaderTop: 18,
             compactNavTop: 0,
@@ -904,6 +968,44 @@
                 const targetTop = layoutState.sectionStarts[targetId];
                 if (typeof targetTop === "number") {
                     window.scrollTo({ top: targetTop, behavior: "smooth" });
+                }
+            });
+        });
+
+        async function copyEmailAddress(email) {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(email);
+                return;
+            }
+
+            const tempInput = document.createElement("input");
+            tempInput.value = email;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            tempInput.remove();
+        }
+
+        copyEmailTriggers.forEach((trigger) => {
+            const wrapper = trigger.closest(".copy-email-wrap");
+            let copiedTimer;
+
+            trigger.addEventListener("click", async () => {
+                const email = trigger.getAttribute("data-email");
+
+                if (!email || !wrapper) {
+                    return;
+                }
+
+                try {
+                    await copyEmailAddress(email);
+                    wrapper.classList.add("is-copied");
+                    window.clearTimeout(copiedTimer);
+                    copiedTimer = window.setTimeout(() => {
+                        wrapper.classList.remove("is-copied");
+                    }, 2200);
+                } catch (error) {
+                    console.error("Failed to copy email address", error);
                 }
             });
         });
