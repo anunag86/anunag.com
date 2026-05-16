@@ -453,12 +453,14 @@
         .contact-links {
             display: flex;
             flex-wrap: wrap;
+            align-items: flex-start;
             gap: 1rem 1.5rem;
         }
 
         .copy-email-wrap {
             position: relative;
-            display: inline-block;
+            display: inline-flex;
+            align-items: flex-start;
         }
 
         .connect-link {
@@ -471,17 +473,23 @@
 
         button.connect-link {
             appearance: none;
+            display: inline-block;
             cursor: pointer;
+            font: inherit;
+            line-height: inherit;
             color: inherit;
             background: transparent;
             border-top: 0;
             border-right: 0;
             border-left: 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            margin: 0;
             padding-top: 0;
             padding-right: 0;
             padding-left: 0;
+            padding-bottom: 0.15rem;
             text-align: left;
+            vertical-align: top;
         }
 
         .copy-email-note,
