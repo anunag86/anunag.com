@@ -519,10 +519,15 @@
             text-transform: uppercase;
         }
 
-        .copy-email-wrap:hover .copy-email-note,
-        .copy-email-wrap:focus-within .copy-email-note {
+        .copy-email-wrap:not(.is-copied):hover .copy-email-note,
+        .copy-email-wrap:not(.is-copied):focus-within .copy-email-note {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .copy-email-wrap.is-copied .copy-email-note {
+            opacity: 0;
+            transform: translateY(-2px);
         }
 
         .copy-email-wrap.is-copied .copy-email-confirm {
