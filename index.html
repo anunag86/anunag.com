@@ -453,7 +453,7 @@
         .contact-links {
             display: flex;
             flex-wrap: wrap;
-            align-items: flex-start;
+            align-items: baseline;
             gap: 1rem 1.5rem;
         }
 
@@ -475,8 +475,10 @@
             appearance: none;
             display: inline-block;
             cursor: pointer;
-            font: inherit;
-            line-height: inherit;
+            font-family: var(--font-sans);
+            font-size: clamp(1.05rem, 3vw, 1.35rem);
+            font-weight: 500;
+            line-height: normal;
             color: inherit;
             background: transparent;
             border-top: 0;
@@ -489,7 +491,7 @@
             padding-left: 0;
             padding-bottom: 0.15rem;
             text-align: left;
-            vertical-align: top;
+            vertical-align: baseline;
         }
 
         .copy-email-note,
