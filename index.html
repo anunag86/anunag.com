@@ -651,6 +651,8 @@
             }
 
             .nav-item {
+                cursor: default;
+                pointer-events: none;
                 padding: 0.45rem 0.85rem;
                 font-size: 0.65rem;
                 letter-spacing: 0.14em;
@@ -1044,7 +1046,12 @@
         }
 
         navItems.forEach((item) => {
-            item.addEventListener("click", () => {
+            item.addEventListener("click", (event) => {
+                if (desktopMedia.matches) {
+                    event.preventDefault();
+                    return;
+                }
+
                 const targetId = item.getAttribute("data-target");
                 const targetTop = layoutState.sectionStarts[targetId];
                 if (typeof targetTop === "number") {
