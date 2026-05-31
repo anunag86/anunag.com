@@ -942,6 +942,7 @@
             compactNavTop: 0,
             heroEnd: 1,
             navRevealPoint: 1,
+            desktopActivationOffset: 120,
             sectionStarts: {}
         };
 
@@ -955,9 +956,14 @@
             const compactNavTop = isDesktop ? 16 : compactHeaderTop + (headerHeight * compactScale) + compactGap;
             const sectionStarts = {};
             const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            const desktopActivationOffset = isDesktop ? Math.max(110, compactHeaderTop + 52) : 0;
 
             sections.forEach((section) => {
-                sectionStarts[section.id] = Math.min(section.offsetTop, maxScroll);
+                if (isDesktop) {
+                    sectionStarts[section.id] = Math.max(0, Math.min(section.offsetTop - desktopActivationOffset, maxScroll));
+                } else {
+                    sectionStarts[section.id] = Math.min(section.offsetTop, maxScroll);
+                }
             });
 
             const introTop = sectionStarts[introPane.id] ?? 0;
@@ -968,6 +974,7 @@
             layoutState.compactNavTop = compactNavTop;
             layoutState.heroEnd = heroEnd;
             layoutState.navRevealPoint = navRevealPoint;
+            layoutState.desktopActivationOffset = desktopActivationOffset;
             layoutState.sectionStarts = sectionStarts;
 
             frameNav.style.top = isDesktop ? "" : `${compactNavTop}px`;
@@ -986,13 +993,23 @@
         }
 
         function updateOnScroll() {
-            const scrollAnchor = window.scrollY + (window.innerHeight * 0.5);
+            const isDesktop = desktopMedia.matches;
+            const scrollAnchor = isDesktop
+                ? layoutState.desktopActivationOffset
+                : window.scrollY + (window.innerHeight * 0.5);
             let activeId = "pane-00";
 
             sections.forEach((pane) => {
-                const paneStart = layoutState.sectionStarts[pane.id] ?? pane.offsetTop;
-                if (scrollAnchor >= paneStart) {
-                    activeId = pane.id;
+                if (isDesktop) {
+                    const paneTop = pane.getBoundingClientRect().top;
+                    if (paneTop <= scrollAnchor) {
+                        activeId = pane.id;
+                    }
+                } else {
+                    const paneStart = layoutState.sectionStarts[pane.id] ?? pane.offsetTop;
+                    if (scrollAnchor >= paneStart) {
+                        activeId = pane.id;
+                    }
                 }
             });
 
@@ -1001,10 +1018,17 @@
             body.classList.toggle("on-dark-pane", darkRatio >= (desktopMedia.matches ? 0.55 : 0.45));
             syncNav(activeId);
 
-            const isDesktop = desktopMedia.matches;
             const startTop = isDesktop ? (window.innerHeight * 0.5) : Math.round((window.innerHeight - header.getBoundingClientRect().height) / 2);
             const endTop = layoutState.compactHeaderTop;
-            let prog = window.scrollY / layoutState.heroEnd;
+            let prog;
+
+            if (isDesktop) {
+                const introRectTop = introPane.getBoundingClientRect().top;
+                prog = 1 - (introRectTop / window.innerHeight);
+            } else {
+                prog = window.scrollY / layoutState.heroEnd;
+            }
+
             prog = Math.max(0, Math.min(1, prog));
             const currentTop = startTop - ((startTop - endTop) * prog);
             const currentScale = 1 - ((isDesktop ? 0.65 : 0.56) * prog);
