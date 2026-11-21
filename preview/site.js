@@ -140,7 +140,7 @@
   /* ---------- noise fragments: hero + whole page ---------- */
   const KINDS = ['toast', 'toast', 'badge', 'dot', 'dot', 'toggle', 'bar', 'chip', 'count', 'toast', 'badge', 'chip'];
   const FKINDS = ['dot', 'dot', 'badge', 'toggle', 'bar', 'chip', 'mini', 'mini', 'dot'];
-  const imgDs = new Image(); imgDs.src = 'assets/deadscroll-icon.png';
+  const imgDs = new Image(); imgDs.src = 'assets/deadscroll-tile.svg';
   const imgUl = new Image(); imgUl.src = 'assets/uplevel-logo.png';
   function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
   function rr(ctx, x, y, w, h, r) {
@@ -263,7 +263,7 @@
         const s = lerp(12, 56, e);
         ctx.save();
         rr(ctx, x - s / 2, y - s / 2, s, s, s * 0.25);
-        ctx.fillStyle = f.prod === 'ds' ? '#20242C' : th.ulTile;
+        ctx.fillStyle = f.prod === 'ds' ? '#0D0D0D' : th.ulTile;
         ctx.shadowColor = 'rgba(10,14,28,0.22)'; ctx.shadowBlur = 14 * e; ctx.shadowOffsetY = 5 * e;
         ctx.fill();
         ctx.shadowColor = 'rgba(0,0,0,0)';

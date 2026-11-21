@@ -176,7 +176,7 @@ main { position: relative; z-index: 1; }
 .chip__meta { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
 .logo-ul { background: #FFFFFF; }
 /* dark mode: a light edge so the dark DEADSCROLL tile stands out, and a softer UpLevel tile so it doesn't outshine it */
-[data-theme="dark"] img[src$="deadscroll-icon.png"] { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3); }
+[data-theme="dark"] img[src$="deadscroll-tile.svg"] { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3); }
 [data-theme="dark"] .logo-ul:not(.logo-fallback), [data-theme="dark"] .tile--light { background: #D8DBDF; }
 .logo-fallback { display: flex; align-items: center; justify-content: center; background: var(--accent); color: #FFFFFF; font-weight: 700; }
 .hero__status {
