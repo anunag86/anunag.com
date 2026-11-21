@@ -54,7 +54,8 @@
     let x0 = Math.max(cL + 660, W * 0.55), x1 = cL + cW;
     const below = narrow || x1 - x0 < 300;
     hero.classList.toggle('hero--below', below);
-    const heroH = hero.offsetHeight;
+    hero.style.minHeight = '';
+    let heroH = hero.offsetHeight;
     let y0 = heroH * 0.22, y1 = heroH * 0.8, cols = 7, rows = 7, cellsDs = [2, 3], cellsUl = [4, 3];
     if (below) {
       x0 = cL; x1 = cL + cW; y0 = heroH * (narrow ? 0.72 : 0.76); y1 = heroH * 0.9;
@@ -62,7 +63,15 @@
     }
     const sp = Math.min((x1 - x0) / (cols - 1), (y1 - y0) / (rows - 1), 66);
     const gx = (x0 + x1) / 2 - sp * (cols - 1) / 2;
-    const gy = (y0 + y1) / 2 - sp * (rows - 1) / 2;
+    let gy = (y0 + y1) / 2 - sp * (rows - 1) / 2;
+    if (below) {
+      /* keep the grid clear of the text and buttons above it; grow the hero when they run long (small phones) */
+      const col = $('.hero__col');
+      const clear = col ? col.getBoundingClientRect().bottom - hero.getBoundingClientRect().top + 48 : 0;
+      if (gy < clear) gy = clear;
+      const need = Math.ceil(gy + sp * (rows - 1) + 84);
+      if (need > heroH) { hero.style.minHeight = need + 'px'; heroH = hero.offsetHeight; }
+    }
     const edge = Math.max(14, padX * 0.5);
     doc.style.setProperty('--edge-l', Math.round(Math.max(6, cL - edge)) + 'px');
     doc.style.setProperty('--edge-r', Math.round(Math.min(W - 6, cL + cW + edge)) + 'px');
@@ -311,6 +320,7 @@
   }
 
   let meterT = 0;
+  let h1Settled = false; /* the headline softens only during the first settle on load; after that it stays sharp */
   function heroFrame(now, dt, top) {
     if (!heroCtx || top > G.heroH) return;
     const th = pal();
@@ -337,11 +347,17 @@
     if (now - meterT > 90) {
       meterT = now;
       const qn = 1 - N;
-      if (h1) {
-        const op = (0.74 + 0.26 * qn).toFixed(2);
-        const fl = qn > 0.98 ? 'none' : 'blur(' + ((1 - qn) * 1.1).toFixed(1) + 'px)';
-        if (h1.style.opacity !== op) h1.style.opacity = op;
-        if (h1.style.filter !== fl) h1.style.filter = fl;
+      if (h1 && !h1Settled) {
+        if (qn > 0.98) {
+          h1Settled = true;
+          h1.style.opacity = '';
+          h1.style.filter = '';
+        } else {
+          const op = (0.74 + 0.26 * qn).toFixed(2);
+          const fl = 'blur(' + ((1 - qn) * 1.1).toFixed(1) + 'px)';
+          if (h1.style.opacity !== op) h1.style.opacity = op;
+          if (h1.style.filter !== fl) h1.style.filter = fl;
+        }
       }
       if (meter) {
         const pct = Math.round(N * 100);
@@ -849,13 +865,13 @@
     W = nw; H = innerHeight; dpr = Math.min(2, devicePixelRatio || 1);
     if (fieldCv) { fieldCv.width = Math.round(W * dpr); fieldCv.height = Math.round(H * dpr); }
     if (snowCv) { snowCv.width = Math.round(W * dpr); snowCv.height = Math.round(H * dpr); }
-    const oldH = G ? G.heroH : -1;
+    const oldH = G ? G.heroH : -1, oldGy = G ? G.gy : -1;
     G = geo();
     if (heroCv) {
       heroCv.width = Math.round(W * dpr); heroCv.height = Math.round(G.heroH * dpr);
       heroCv.style.width = W + 'px'; heroCv.style.height = G.heroH + 'px';
     }
-    if (widthChanged || Math.abs(oldH - G.heroH) > 60) initFrags();
+    if (widthChanged || Math.abs(oldH - G.heroH) > 60 || Math.abs(oldGy - G.gy) > 1) initFrags();
     if (!flakes.length || Math.abs(W - flakeW) > 40) initFlakes();
     fieldSig = '';
     buildGarland();
@@ -864,7 +880,7 @@
   let rzT = 0;
   addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(resize, 120); });
   addEventListener('load', register);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fieldSig = ''; register(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { fieldSig = ''; resize(); });
   setInterval(register, 1000);
 
   /* UpLevel logo: if the file is missing, show a clean lettered tile instead of a broken image */

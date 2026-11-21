@@ -162,7 +162,8 @@ main { position: relative; z-index: 1; }
 .eyebrow__rule { display: block; width: 18px; height: 1px; background: var(--accent); }
 .hero__title { margin: 20px 0 0; max-width: 13ch; font-size: clamp(48px, 6.2vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -0.042em; transition: color 0.6s ease, text-shadow 0.5s ease; }
 .lead { margin: 28px 0 0; max-width: 46ch; font-size: clamp(17px, 1.45vw, 19px); line-height: 1.6; color: var(--ink2); }
-.chips { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
+.chips { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.chips__links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .chip {
   position: relative; display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 0 18px 0 12px;
   border: 1px solid var(--pill-bd); border-radius: 16px; background: var(--pill); font-size: 14px; color: var(--ink); text-decoration: none;
