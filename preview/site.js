@@ -1,6 +1,6 @@
 /* anunag.com — Quiet precision
    Vanilla JS, no dependencies. Everything here is progressive enhancement:
-   without it the page still reads top to bottom, every link works, and day/night still follows the clock. */
+   without it the page still reads top to bottom, every link works, and it opens in dark mode. */
 (() => {
   'use strict';
 
@@ -80,9 +80,7 @@
     return { narrow, padX, cL, cW, heroH, cols, rows, sp, gx, gy, cellsDs, cellsUl, below };
   }
 
-  /* ---------- day / night ---------- */
-  let userTheme = q.get('theme') === 'dark' || q.get('theme') === 'light';
-  const clockDark = () => { const d = new Date(); const h = d.getHours() + d.getMinutes() / 60; return h >= 18.5 || h < 6; };
+  /* ---------- day / night (starts dark; the sun/moon button switches it) ---------- */
   const metaTheme = $('meta[name="theme-color"]');
   function syncUi() {
     const dark = isDark(), snow = snowOn(), bp = blueprintOn();
@@ -99,11 +97,6 @@
     paintCaps();
     buildGarland();
   }
-  setInterval(() => {
-    if (userTheme) return;
-    const d = clockDark();
-    if (d !== isDark()) setTheme(d);
-  }, 60000);
 
   /* ---------- reveal on scroll ---------- */
   const rvs = $$('.rv');
@@ -145,8 +138,8 @@
   }, 450);
 
   /* ---------- noise fragments: hero + whole page ---------- */
-  const KINDS = ['toast', 'toast', 'badge', 'dot', 'dot', 'toggle', 'bar', 'chip', 'spin', 'count', 'toast', 'badge', 'chip'];
-  const FKINDS = ['dot', 'dot', 'badge', 'toggle', 'bar', 'chip', 'mini', 'mini', 'spin', 'dot'];
+  const KINDS = ['toast', 'toast', 'badge', 'dot', 'dot', 'toggle', 'bar', 'chip', 'count', 'toast', 'badge', 'chip'];
+  const FKINDS = ['dot', 'dot', 'badge', 'toggle', 'bar', 'chip', 'mini', 'mini', 'dot'];
   const imgDs = new Image(); imgDs.src = 'assets/deadscroll-icon.png';
   const imgUl = new Image(); imgUl.src = 'assets/uplevel-logo.png';
   function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
@@ -261,9 +254,6 @@
       } else if (k === 'chip') {
         rr(ctx, -30, -11, 60, 22, 11); ctx.strokeStyle = th.fragLine; ctx.stroke();
         ctx.fillStyle = tint; ctx.globalAlpha = na * 0.7; rr(ctx, -18, -2.5, 36, 5, 2.5); ctx.fill();
-      } else if (k === 'spin') {
-        ctx.strokeStyle = th.accent; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.arc(0, 0, 9, now * 0.006, now * 0.006 + 4.2); ctx.stroke();
       }
       ctx.restore();
     }
@@ -706,7 +696,7 @@
     const b = e.target && e.target.closest ? e.target.closest('[data-action]') : null;
     if (!b) return;
     const a = b.getAttribute('data-action');
-    if (a === 'theme') { userTheme = true; setTheme(!isDark()); }
+    if (a === 'theme') setTheme(!isDark());
     else if (a === 'snow') setSnow(!snowOn(), b);
     else if (a === 'blueprint') setBlueprint(!blueprintOn());
     else if (a === 'toys') setDock(!dock.classList.contains('is-open'));
