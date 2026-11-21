@@ -1,27 +1,28 @@
 <!doctype html>
-<html lang="en" data-theme="light" data-snow="off" data-blueprint="off">
+<html lang="en" data-theme="dark" data-snow="off" data-blueprint="off">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- PREVIEW ONLY: remove this robots tag when promoting this page to the homepage. -->
 <meta name="robots" content="noindex">
-<title>Anunag Jayanti — I build quiet tools for a noisy world</title>
+<title>Anunag Jayanti</title>
 <meta name="description" content="Anunag Jayanti is a product builder with 15+ years of enterprise platforms behind him. He builds quiet tools: DEADSCROLL for Android and UpLevel for interview prep.">
-<meta name="theme-color" content="#F6F6F4">
+<meta name="theme-color" content="#0B0C0E">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Anunag Jayanti — I build quiet tools for a noisy world">
 <meta property="og:description" content="Product builder. DEADSCROLL, UpLevel, and essays on product, AI and process.">
 <meta property="og:url" content="https://anunag.com/">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <script>
-/* Runs before paint: marks JS as available, picks day or night from the visitor's clock (night 6:30 pm to 6 am),
+/* Runs before paint: marks JS as available, starts in dark mode (the sun/moon button switches it),
    and applies test overrides: ?theme=light|dark  ?snow=on  ?blueprint=on  ?toys=open */
 (function () {
-  var el = document.documentElement, q = new URLSearchParams(location.search), d = new Date();
-  var h = d.getHours() + d.getMinutes() / 60, t = q.get('theme');
+  var el = document.documentElement, q = new URLSearchParams(location.search), t = q.get('theme');
   el.classList.add('js');
-  el.setAttribute('data-theme', t === 'dark' || t === 'light' ? t : (h >= 18.5 || h < 6 ? 'dark' : 'light'));
+  el.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
   if (q.get('snow') === 'on') el.setAttribute('data-snow', 'on');
   if (q.get('blueprint') === 'on') el.setAttribute('data-blueprint', 'on');
 })();
@@ -89,7 +90,7 @@
 <a class="chip" href="#sec-deadscroll" data-mag data-spec="Button / Product chip"><img src="assets/deadscroll-icon.png" alt="" width="28" height="28"><span class="chip__text"><span class="chip__name chip__name--caps">DEADSCROLL</span><span class="chip__meta">Android app</span></span><span class="ledge" data-ledge="pill" data-lid="ch-ds"></span></a>
 <a class="chip" href="#sec-uplevel" data-mag data-spec="Button / Product chip"><img class="logo-ul" src="assets/uplevel-logo.png" alt="" width="28" height="28"><span class="chip__text"><span class="chip__name">UpLevel</span><span class="chip__meta">Web platform</span></span><span class="ledge" data-ledge="pill" data-lid="ch-ul"></span></a>
 <div class="chips__links">
-<a class="pill" href="https://www.linkedin.com/in/anunagjayanti/" data-mag data-spec="Button / Pill">LinkedIn ↗<span class="ledge" data-ledge="pill" data-lid="pl-hli"></span></a>
+<a class="pill" href="https://www.linkedin.com/in/anunagjayanti/" data-mag data-spec="Button / Pill">Me on LinkedIn ↗<span class="ledge" data-ledge="pill" data-lid="pl-hli"></span></a>
 <a class="pill" href="mailto:Jayanti.nag@gmail.com" data-mag data-spec="Button / Pill">Email me ↗<span class="ledge" data-ledge="pill" data-lid="pl-hem"></span></a>
 </div>
 </div>
