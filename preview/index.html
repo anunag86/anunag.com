@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-snow="off" data-blueprint="off">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PREVIEW ONLY: remove this robots tag when promoting this page to the homepage. -->
+<meta name="robots" content="noindex">
+<title>Anunag Jayanti — I build quiet tools for a noisy world</title>
+<meta name="description" content="Anunag Jayanti is a product builder with 15+ years of enterprise platforms behind him. He builds quiet tools: DEADSCROLL for Android and UpLevel for interview prep.">
+<meta name="theme-color" content="#F6F6F4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Anunag Jayanti — I build quiet tools for a noisy world">
+<meta property="og:description" content="Product builder. DEADSCROLL, UpLevel, and essays on product, AI and process.">
+<meta property="og:url" content="https://anunag.com/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>
+/* Runs before paint: marks JS as available, picks day or night from the visitor's clock (night 6:30 pm to 6 am),
+   and applies test overrides: ?theme=light|dark  ?snow=on  ?blueprint=on  ?toys=open */
+(function () {
+  var el = document.documentElement, q = new URLSearchParams(location.search), d = new Date();
+  var h = d.getHours() + d.getMinutes() / 60, t = q.get('theme');
+  el.classList.add('js');
+  el.setAttribute('data-theme', t === 'dark' || t === 'light' ? t : (h >= 18.5 || h < 6 ? 'dark' : 'light'));
+  if (q.get('snow') === 'on') el.setAttribute('data-snow', 'on');
+  if (q.get('blueprint') === 'on') el.setAttribute('data-blueprint', 'on');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="site.js" defer></script>
+</head>
+<body>
+
+<div class="backdrop" aria-hidden="true">
+<div class="backdrop__winter"></div>
+<div class="backdrop__edge backdrop__edge--l"></div>
+<div class="backdrop__edge backdrop__edge--r"></div>
+<canvas class="field"></canvas>
+</div>
+
+<div class="blueprint-grid" aria-hidden="true"><div class="blueprint-grid__cols"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+<canvas class="snow-canvas" aria-hidden="true"></canvas>
+<div class="garland" aria-hidden="true"></div>
+
+<header class="hud">
+<a class="hud__brand" href="#top"><span class="hud__mark"></span>Anunag Jayanti</a>
+<div class="hud__right">
+<nav class="hud__nav" aria-label="Sections">
+<a href="#work">Work</a>
+<a href="#sec-writing">Writing</a>
+<a href="#sec-connect">Contact</a>
+</nav>
+<button class="icon-btn tree-btn" type="button" data-action="snow" aria-pressed="false" aria-label="Let it snow" title="Let it snow">
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+<circle class="tree-btn__halo" cx="12" cy="3.6" r="2.6" fill="#FFC83D"></circle>
+<path class="tree-btn__tree" d="M12 6 L16.8 12 H14.3 L18.6 18 H5.4 L9.7 12 H7.2 Z" stroke-width="0.8" stroke-linejoin="round"></path>
+<rect x="10.7" y="18" width="2.6" height="3.4" rx="0.6" fill="#8B5A2B"></rect>
+<path class="tree-btn__star" d="M12 0.9 L12.85 2.75 L14.7 3.6 L12.85 4.45 L12 6.3 L11.15 4.45 L9.3 3.6 L11.15 2.75 Z" fill="#FFC83D" stroke="#E0A21E" stroke-width="0.4" stroke-linejoin="round"></path>
+<circle class="bulb" style="--d:1.4s;--b:.2s" cx="10.6" cy="10.4" r="0.95" fill="#FF5A47"></circle>
+<circle class="bulb" style="--d:1.9s;--b:.6s" cx="13.5" cy="13.6" r="0.95" fill="#FFC83D"></circle>
+<circle class="bulb" style="--d:1.2s;--b:.4s" cx="9.3" cy="15.6" r="0.95" fill="#5BC0FF"></circle>
+<circle class="bulb" style="--d:2.2s;--b:1s" cx="15.1" cy="16.4" r="0.95" fill="#FF5A47"></circle>
+<circle class="bulb" style="--d:1.6s;--b:.8s" cx="12.6" cy="8.9" r="0.8" fill="#FFFFFF"></circle>
+</svg>
+</button>
+<button class="icon-btn" type="button" data-action="theme" aria-label="Switch to dark mode" title="Switch to dark mode">
+<svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M14.6 11.4A6.2 6.2 0 0 1 6.6 3.4 6.4 6.4 0 1 0 14.6 11.4Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg>
+<svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="9" cy="9" r="3.4"></circle><path d="M9 1.6v1.8M9 14.6v1.8M1.6 9h1.8M14.6 9h1.8M3.8 3.8l1.3 1.3M12.9 12.9l1.3 1.3M3.8 14.2l1.3-1.3M12.9 5.1l1.3-1.3"></path></g></svg>
+</button>
+</div>
+</header>
+
+<main>
+
+<section id="top" class="hero" aria-labelledby="h1">
+<div class="hero__wash" aria-hidden="true"></div>
+<canvas class="hero__canvas" aria-hidden="true"></canvas>
+<a class="hero__tile" data-tile="ds" href="#sec-deadscroll" tabindex="-1" aria-hidden="true"></a>
+<a class="hero__tile" data-tile="ul" href="#sec-uplevel" tabindex="-1" aria-hidden="true"></a>
+<div class="wrap hero__inner">
+<div class="hero__col">
+<p class="eyebrow eyebrow--accent" data-spec="Label / Mono"><span class="eyebrow__rule"></span>Product builder · 15+ years</p>
+<h1 id="h1" class="hero__title" data-cap data-spec="Display / H1">I build quiet tools for a <span class="accent">noisy</span> world.</h1>
+<p class="lead" data-spec="Body / Lead">I believe the best technology is invisible. A great product should fade into the background, leaving behind only the value and experience it creates for the user, without unnecessary noise.</p>
+<div class="chips">
+<a class="chip" href="#sec-deadscroll" data-mag data-spec="Button / Product chip"><img src="assets/deadscroll-icon.png" alt="" width="28" height="28"><span class="chip__text"><span class="chip__name chip__name--caps">DEADSCROLL</span><span class="chip__meta">Android app</span></span><span class="ledge" data-ledge="pill" data-lid="ch-ds"></span></a>
+<a class="chip" href="#sec-uplevel" data-mag data-spec="Button / Product chip"><img class="logo-ul" src="assets/uplevel-logo.png" alt="" width="28" height="28"><span class="chip__text"><span class="chip__name">UpLevel</span><span class="chip__meta">Web platform</span></span><span class="ledge" data-ledge="pill" data-lid="ch-ul"></span></a>
+</div>
+</div>
+</div>
+<div class="wrap hero__status" aria-hidden="true">
+<span class="status-dot"></span>
+<span class="hero__meter">Signal clear</span>
+<span class="hero__hint"><span class="only-pointer">Move fast to make noise. Stop, and it settles.</span><span class="only-touch">Scroll makes noise. Stop, and it settles.</span></span>
+</div>
+</section>
+
+<section id="work" class="section wrap" aria-label="Work">
+<div class="rv">
+<div class="section__head">
+<h2 class="h2" data-cap data-spec="Heading / H2">Quiet tools</h2>
+<p class="mono-label"><span class="accent">01</span> — Work · 2 live</p>
+</div>
+<div class="cards">
+
+<article id="sec-deadscroll" class="card" data-lit data-spec="Card / Product" aria-labelledby="dn">
+<span class="ledge ledge--card" data-ledge="card" data-lid="card-dn"></span>
+<div class="card__top">
+<span class="tile" data-spec="Image / App icon"><img src="assets/deadscroll-icon.png" alt="DEADSCROLL app icon" width="56" height="56"><span class="ledge ledge--tile" data-ledge="tile" data-lid="tile-dn"></span></span>
+<span class="card__status"><span class="live-dot"></span>Android · Live on Google Play</span>
+</div>
+<h3 id="dn" class="card__title card__title--caps" data-cap data-spec="Heading / Product">DEADSCROLL</h3>
+<p class="card__tagline">Nudges, not blocks.</p>
+<p class="card__body" data-spec="Body / Card">DEADSCROLL is an Android app that interrupts compulsive scrolling in the apps you choose, before it hardens into lost time. Instead of blocking those apps, it steps in with progressively stronger nudges: just enough pause to notice what you’re doing and choose whether to keep going.</p>
+<p class="card__body">Built on the idea that blockers rarely stick, because people learn to get around them. Live on Google Play, with your detailed history kept on your device.</p>
+<div class="pills">
+<a class="pill" href="https://deadscroll.app" data-mag data-spec="Button / Pill">deadscroll.app ↗<span class="ledge" data-ledge="pill" data-lid="pl-ds"></span></a>
+<a class="pill" href="https://play.google.com/store/apps/details?id=com.reclaim.deepwork" data-mag data-spec="Button / Pill">Get it on Google Play ↗<span class="ledge" data-ledge="pill" data-lid="pl-gp"></span></a>
+</div>
+</article>
+
+<article id="sec-uplevel" class="card" data-lit data-spec="Card / Product" aria-labelledby="un">
+<span class="ledge ledge--card" data-ledge="card" data-lid="card-un"></span>
+<div class="card__top">
+<span class="tile tile--light" data-spec="Image / App icon"><img class="logo-ul" src="assets/uplevel-logo.png" alt="UpLevel logo" width="56" height="56"><span class="ledge ledge--tile" data-ledge="tile" data-lid="tile-un"></span></span>
+<span class="card__status"><span class="live-dot"></span>Web platform · Live</span>
+</div>
+<h3 id="un" class="card__title" data-cap data-spec="Heading / Product">UpLevel</h3>
+<p class="card__tagline">Interview prep without the guesswork.</p>
+<p class="card__body" data-spec="Body / Card">Interview preparation can be chaotic and rudderless. UpLevel does the heavy lifting of researching a company’s hiring culture and patterns, replacing generic advice with structured intelligence and graded mock interviews. It is built to strip away friction and give people their confidence back.</p>
+<div class="pills">
+<a class="pill" href="https://uplevel.guide/" data-mag data-spec="Button / Pill">uplevel.guide ↗<span class="ledge" data-ledge="pill" data-lid="pl-ul"></span></a>
+</div>
+</article>
+
+</div>
+</div>
+</section>
+
+<section id="sec-builder" class="section wrap" aria-labelledby="about">
+<div class="rv about">
+<div>
+<p class="mono-label"><span class="accent">02</span> — The builder</p>
+<h2 id="about" class="h2 about__title" data-cap data-spec="Heading / H2">Systems that serve, not subtract.</h2>
+</div>
+<div>
+<p class="about__body" data-spec="Body / Lead">I’ve spent over 15 years building enterprise platforms grounded in process excellence, compliance, and analytics. This space is my digital workshop, where I build quiet, high-value applications designed to make life a little easier.</p>
+<dl class="facts" data-spec="List / Facts">
+<div><dt>Years</dt><dd>15+ building enterprise platforms</dd></div>
+<div><dt>Grounded in</dt><dd>Process excellence, compliance, analytics</dd></div>
+<div><dt>Now</dt><dd>Quiet, high-value applications</dd></div>
+</dl>
+<div class="pills">
+<a class="pill" href="https://www.linkedin.com/in/anunagjayanti/" data-mag data-spec="Button / Pill">Full history on LinkedIn ↗<span class="ledge" data-ledge="pill" data-lid="pl-li1"></span></a>
+</div>
+</div>
+</div>
+</section>
+
+<section id="sec-writing" class="section wrap" aria-labelledby="writing">
+<div class="rv ruled">
+<div class="section__head">
+<h2 id="writing" class="h2" data-cap data-spec="Heading / H2">Writing</h2>
+<p class="mono-label"><span class="accent">03</span> — Essays on Medium</p>
+</div>
+<ol class="essays">
+<li data-ledge="rule" data-lid="row0"><a href="https://anunagjayanti.medium.com/too-many-cooks-an-autopsy-of-the-ai-hype-cycle-25ee276a88fc" data-spec="Row / Essay"><span class="essay__n">01</span><span class="essay__text"><span class="essay__title">Too Many Cooks: An Autopsy of the AI Hype Cycle</span><span class="essay__sum">As the cost of code plummets, product taste becomes the differentiator: understanding user motivations and solving for them elegantly.</span></span><span class="essay__arrow" aria-hidden="true">↗</span></a></li>
+<li data-ledge="rule" data-lid="row1"><a href="https://anunagjayanti.medium.com/tale-of-3-llms-building-product-quality-by-organizing-ai-intelligence-0e062ff59d80" data-spec="Row / Essay"><span class="essay__n">02</span><span class="essay__text"><span class="essay__title">Tale of 3 LLMs: Building Product Quality</span><span class="essay__sum">Organizing AI intelligence to build robust, high-quality products.</span></span><span class="essay__arrow" aria-hidden="true">↗</span></a></li>
+<li data-ledge="rule" data-lid="row2"><a href="https://anunagjayanti.medium.com/design-the-experience-then-the-agents-how-uplevel-was-built-486b90a1ed76" data-spec="Row / Essay"><span class="essay__n">03</span><span class="essay__text"><span class="essay__title">Design the Experience, Then the Agents</span><span class="essay__sum">A look under the hood at how UpLevel was architected from the user backward.</span></span><span class="essay__arrow" aria-hidden="true">↗</span></a></li>
+<li class="essay--small" data-ledge="thin" data-lid="row3"><a href="https://anunagjayanti.medium.com/outcome-based-processes-an-intelligent-alternative-10e51e8b6f21" data-spec="Row / Essay"><span class="essay__n">04</span><span class="essay__text"><span class="essay__title">Outcome-Based Processes: An Intelligent Alternative</span></span><span class="essay__arrow" aria-hidden="true">↗</span></a></li>
+<li class="essay--small" data-ledge="thin" data-lid="row4"><a href="https://anunagjayanti.medium.com/why-companies-use-linear-business-process-ca1997d417d5" data-spec="Row / Essay"><span class="essay__n">05</span><span class="essay__text"><span class="essay__title">Why Companies Use Linear Business Process</span></span><span class="essay__arrow" aria-hidden="true">↗</span></a></li>
+</ol>
+<div class="pills">
+<a class="pill" href="https://anunagjayanti.medium.com/" data-mag data-spec="Button / Pill">All writing on Medium ↗<span class="ledge" data-ledge="pill" data-lid="pl-md"></span></a>
+</div>
+</div>
+</section>
+
+<section id="sec-connect" class="section wrap" aria-labelledby="connect">
+<div class="rv ruled">
+<p class="mono-label"><span class="accent">04</span> — Say hello</p>
+<h2 id="connect" class="connect__title" data-cap data-spec="Heading / H2">I’m always open to talking about intelligent systems, digital minimalism, or a good sci-fi universe.</h2>
+<div class="pills">
+<a class="pill pill--primary" href="mailto:Jayanti.nag@gmail.com" data-mag data-spec="Button / Primary">Email me ↗<span class="ledge" data-ledge="pill" data-lid="pl-em"></span></a>
+<a class="pill" href="https://www.linkedin.com/in/anunagjayanti/" data-mag data-spec="Button / Pill">LinkedIn ↗<span class="ledge" data-ledge="pill" data-lid="pl-li2"></span></a>
+</div>
+</div>
+</section>
+
+<section id="sec-end" class="end wrap" aria-label="End">
+<div class="rv">
+<p class="end__line" data-cap data-spec="Display / Closing">That’s everything.<br><span class="end__soft">Back to your day.</span></p>
+<div class="quiet-links">
+<a href="https://deadscroll.app">deadscroll.app ↗</a>
+<a href="https://uplevel.guide/">uplevel.guide ↗</a>
+<a href="https://anunagjayanti.medium.com/">medium ↗</a>
+<a href="https://www.linkedin.com/in/anunagjayanti/">linkedin ↗</a>
+</div>
+</div>
+<footer class="footer">
+<span>Designed and built by hand.</span>
+<span class="footer__right">
+<button class="text-btn" type="button" data-action="open-toys">This page has a few toys. They’re in the corner ↘</button>
+<a class="text-btn" href="#top">Back to top ↑</a>
+</span>
+</footer>
+<svg class="end__drift" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+<path class="end__drift-sh" d="M-20 22 C 120 14 240 30 380 22 S 640 10 780 20 S 1040 32 1180 22 S 1380 12 1460 20 L1460 70 L-20 70 Z"></path>
+<path class="end__drift-top" d="M-20 26 C 120 18 240 34 380 26 S 640 14 780 24 S 1040 36 1180 26 S 1380 16 1460 24 L1460 70 L-20 70 Z"></path>
+</svg>
+</section>
+
+</main>
+
+<div class="inspect" aria-hidden="true">
+<div class="inspect__box"><span class="inspect__h inspect__h--tl"></span><span class="inspect__h inspect__h--tr"></span><span class="inspect__h inspect__h--bl"></span><span class="inspect__h inspect__h--br"></span><span class="inspect__pad"></span><span class="inspect__dim"></span></div>
+<div class="inspect__card"><div class="inspect__label"></div><div class="inspect__lines"></div></div>
+</div>
+
+<button class="blueprint-pill" type="button" data-action="blueprint">BLUEPRINT · <span class="only-pointer">HOVER ANYTHING</span><span class="only-touch">TAP ANYTHING</span> · TURN OFF ✕</button>
+
+<div class="dock">
+<div class="dock__items" id="dock-items">
+<div class="dock__item" style="--i:3"><span class="dock__label">Make some noise</span><button class="dock__btn" type="button" data-action="noise" aria-label="Make some noise" title="Make some noise"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle class="dock__noise-dot" cx="10" cy="10" r="3.2"></circle><path d="M10 2.5v2.4M10 15.1v2.4M2.5 10h2.4M15.1 10h2.4M4.7 4.7l1.7 1.7M13.6 13.6l1.7 1.7M4.7 15.3l1.7-1.7M13.6 6.4l1.7-1.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></button></div>
+<div class="dock__item" style="--i:2"><span class="dock__label" data-state="blueprint" data-off="Blueprint" data-on="Blueprint · on">Blueprint</span><button class="dock__btn dock__btn--blue" type="button" data-action="blueprint" aria-pressed="false" aria-label="Blueprint" title="Blueprint"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="3" y="3" width="14" height="14" rx="2" fill="rgba(13,153,255,0.12)" stroke="#0D99FF" stroke-width="1.4"></rect><path d="M3 8h14M3 12.5h14M8 3v14M12.5 3v14" stroke="#0D99FF" stroke-width="0.9" opacity="0.8"></path></svg></button></div>
+<div class="dock__item" style="--i:1"><span class="dock__label" data-state="snow" data-off="Let it snow" data-on="Let it snow · on">Let it snow</span><button class="dock__btn dock__btn--green" type="button" data-action="snow" aria-pressed="false" aria-label="Let it snow" title="Let it snow"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="overflow: visible"><path class="tree-btn__tree" d="M12 6 L16.8 12 H14.3 L18.6 18 H5.4 L9.7 12 H7.2 Z" stroke-width="0.8" stroke-linejoin="round"></path><rect x="10.7" y="18" width="2.6" height="3.4" rx="0.6" fill="#8B5A2B"></rect><path d="M12 0.9 L12.85 2.75 L14.7 3.6 L12.85 4.45 L12 6.3 L11.15 4.45 L9.3 3.6 L11.15 2.75 Z" fill="#FFC83D" stroke="#E0A21E" stroke-width="0.4"></path><circle cx="10.6" cy="10.4" r="0.95" fill="#FF5A47"></circle><circle cx="13.5" cy="13.6" r="0.95" fill="#FFC83D"></circle><circle cx="9.3" cy="15.6" r="0.95" fill="#5BC0FF"></circle></svg></button></div>
+<div class="dock__item" style="--i:0"><span class="dock__label" data-state="dark" data-off="Lights off" data-on="Lights on">Lights off</span><button class="dock__btn" type="button" data-action="theme" aria-label="Switch to dark mode" title="Switch to dark mode"><svg class="icon-moon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M14.6 11.4A6.2 6.2 0 0 1 6.6 3.4 6.4 6.4 0 1 0 14.6 11.4Z" fill="#4B5A8C" stroke="#3A4777" stroke-width="1" stroke-linejoin="round"></path></svg><svg class="icon-sun" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><g fill="none" stroke="#F2B92C" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="9" r="3.4" fill="#F2B92C"></circle><path d="M9 1.6v1.8M9 14.6v1.8M1.6 9h1.8M14.6 9h1.8M3.8 3.8l1.3 1.3M12.9 12.9l1.3 1.3M3.8 14.2l1.3-1.3M12.9 5.1l1.3-1.3"></path></g></svg></button></div>
+</div>
+<button class="dock__toggle" type="button" data-action="toys" aria-expanded="false" aria-controls="dock-items" aria-label="Open the toys: things to play with on this page">
+<svg class="dock__sparkle" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M9 1.2 L10.6 6.6 L16 9 L10.6 11.4 L9 16.8 L7.4 11.4 L2 9 L7.4 6.6 Z" fill="#F2B92C"></path><circle class="dock__sparkle-dot" cx="14.6" cy="3.4" r="1.2" fill="#F2B92C"></circle></svg>
+<svg class="dock__close" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
+<span class="dock__toggle-label">Play</span>
+</button>
+</div>
+
+</body>
+</html>
