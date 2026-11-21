@@ -195,6 +195,10 @@ main { position: relative; z-index: 1; }
 .h2 { margin: 0; font-size: clamp(30px, 3.6vw, 52px); font-weight: 500; line-height: 1.06; letter-spacing: -0.035em; transition: text-shadow 0.5s ease; }
 .mono-label { margin: 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink3); }
 .ruled { padding-top: 40px; border-top: 1px solid var(--line); }
+/* Header links (Work, Writing, Contact) land with the section's heading 24px under the 64px top bar,
+   not at the top of the section's padding. The offsets mirror the paddings above (section + .ruled). */
+#work { scroll-margin-top: calc(88px - clamp(72px, 9vw, 128px)); }
+#sec-writing, #sec-connect { scroll-margin-top: calc(47px - clamp(48px, 6vw, 88px)); }
 
 .cards { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .card {
