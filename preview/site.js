@@ -19,12 +19,12 @@
     light: {
       accent: '#2F7A5A', pop: '#E5484D', frag: 'rgba(17,18,20,0.045)', fragLine: 'rgba(17,18,20,0.2)', dot: 'rgba(17,18,20,0.28)', fdot: 'rgba(17,18,20,0.14)', knob: '#FFFFFF',
       snow: '#FFFFFF', snowSh: 'rgba(70,95,140,0.5)', cap: '255,255,255', flake: '255,255,255', halo: '50,75,120', haloA: 0.26,
-      wire: '#4E5A70', meta: '#F6F6F4', metaSnow: '#E1E9F4'
+      wire: '#4E5A70', meta: '#F6F6F4', metaSnow: '#E1E9F4', ulTile: '#FFFFFF', dsRing: ''
     },
     dark: {
       accent: '#86C0A0', pop: '#FF6B57', frag: 'rgba(255,255,255,0.04)', fragLine: 'rgba(255,255,255,0.2)', dot: 'rgba(255,255,255,0.32)', fdot: 'rgba(255,255,255,0.16)', knob: '#1A1C20',
       snow: '#E4EAF6', snowSh: 'rgba(120,140,190,0.45)', cap: '240,244,252', flake: '236,241,250', halo: '150,170,220', haloA: 0.12,
-      wire: '#3A4256', meta: '#0B0C0E', metaSnow: '#0A0F1F'
+      wire: '#3A4256', meta: '#0B0C0E', metaSnow: '#0A0F1F', ulTile: '#D8DBDF', dsRing: 'rgba(255,255,255,0.3)'
     }
   };
   const isDark = () => doc.getAttribute('data-theme') === 'dark';
@@ -263,7 +263,7 @@
         const s = lerp(12, 56, e);
         ctx.save();
         rr(ctx, x - s / 2, y - s / 2, s, s, s * 0.25);
-        ctx.fillStyle = f.prod === 'ds' ? '#20242C' : '#FFFFFF';
+        ctx.fillStyle = f.prod === 'ds' ? '#20242C' : th.ulTile;
         ctx.shadowColor = 'rgba(10,14,28,0.22)'; ctx.shadowBlur = 14 * e; ctx.shadowOffsetY = 5 * e;
         ctx.fill();
         ctx.shadowColor = 'rgba(0,0,0,0)';
@@ -274,6 +274,7 @@
           ctx.fillStyle = th.accent; ctx.fillRect(x - s / 2, y - s / 2, s, s);
           ctx.fillStyle = '#FFFFFF'; ctx.font = '700 ' + Math.round(s * 0.45) + 'px Geist, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('U', x, y + 1);
         }
+        if (f.prod === 'ds' && th.dsRing) { ctx.lineWidth = 2; ctx.strokeStyle = th.dsRing; rr(ctx, x - s / 2, y - s / 2, s, s, s * 0.25); ctx.stroke(); }
         ctx.restore();
       } else {
         ctx.fillStyle = f.col > 0.86 ? th.accent : (dotR < 2 ? th.fdot : th.dot);

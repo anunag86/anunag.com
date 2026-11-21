@@ -154,13 +154,13 @@ main { position: relative; z-index: 1; }
 .hero__wash { position: absolute; left: -8%; right: -8%; top: -8%; bottom: -8%; background: var(--wash); }
 .hero__canvas { position: absolute; left: 0; top: 0; display: block; }
 .hero__tile { position: absolute; z-index: 2; width: 56px; height: 56px; border-radius: 14px; pointer-events: none; }
-.hero__inner { position: relative; z-index: 1; padding-top: clamp(120px, 20vh, 190px); pointer-events: none; }
-.hero__col { max-width: 600px; pointer-events: auto; }
+.hero__inner { position: relative; z-index: 1; padding-top: clamp(120px, 20vh, 190px); padding-bottom: 88px; pointer-events: none; } /* bottom room keeps the status line clear on short screens */
+.hero__col { max-width: 640px; pointer-events: auto; } /* wide enough for both products and both contact pills on one line */
 .hero--below .hero__col { max-width: none; }
 .eyebrow { margin: 0; display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink3); }
 .eyebrow--accent { color: var(--accent); }
 .eyebrow__rule { display: block; width: 18px; height: 1px; background: var(--accent); }
-.hero__title { margin: 20px 0 0; max-width: 13ch; font-size: clamp(48px, 6.2vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -0.042em; transition: color 0.6s ease, text-shadow 0.5s ease; }
+.hero__title { margin: 20px 0 0; max-width: min(13ch, 600px); font-size: clamp(48px, 6.2vw, 92px); font-weight: 500; line-height: 1; letter-spacing: -0.042em; transition: color 0.6s ease, text-shadow 0.5s ease; }
 .lead { margin: 28px 0 0; max-width: 46ch; font-size: clamp(17px, 1.45vw, 19px); line-height: 1.6; color: var(--ink2); }
 .chips { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .chips__links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
@@ -175,6 +175,9 @@ main { position: relative; z-index: 1; }
 .chip__name--caps { letter-spacing: 0.04em; }
 .chip__meta { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
 .logo-ul { background: #FFFFFF; }
+/* dark mode: a light edge so the dark DEADSCROLL tile stands out, and a softer UpLevel tile so it doesn't outshine it */
+[data-theme="dark"] img[src$="deadscroll-icon.png"] { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3); }
+[data-theme="dark"] .logo-ul:not(.logo-fallback), [data-theme="dark"] .tile--light { background: #D8DBDF; }
 .logo-fallback { display: flex; align-items: center; justify-content: center; background: var(--accent); color: #FFFFFF; font-weight: 700; }
 .hero__status {
   position: absolute; z-index: 1; left: 0; right: 0; bottom: 28px; display: flex; align-items: center; gap: 12px;
